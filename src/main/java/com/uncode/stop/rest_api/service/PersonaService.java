@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class PersonaService extends CrudService<Persona, UUID, PersonaDTO> {
 
     private final PersonaRepository repository;
+    // TODO investigar como hacer que el ModelMapper sea un bean
     private ModelMapper mapper = new ModelMapper();
 
     @Override
