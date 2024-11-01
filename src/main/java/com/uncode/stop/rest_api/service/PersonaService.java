@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class PersonaService extends CrudService<Persona, UUID, PersonaDTO> {
 
     private final PersonaRepository repository;
-    private final ModelMapper mapper;
+    private ModelMapper mapper = new ModelMapper();
 
     @Override
     protected JpaRepository<Persona, UUID> getRepository() {
@@ -37,8 +37,9 @@ public class PersonaService extends CrudService<Persona, UUID, PersonaDTO> {
 
     @Override
     protected void validate(Persona entity) {
-        if (repository.existsByCorreo(entity.getCorreo())) {
-            throw new UniqueConstraintViolationException("Correo ya registrado");
+        var existing = repository.findByCorreo(entity.getCorreo());
+        if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
+            throw new UniqueConstraintViolationException("Correo already exists");
         }
     }
 

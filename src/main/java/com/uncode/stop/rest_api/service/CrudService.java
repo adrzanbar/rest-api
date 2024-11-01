@@ -1,8 +1,7 @@
 package com.uncode.stop.rest_api.service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.uncode.stop.rest_api.error.NotFoundException;
@@ -32,13 +31,14 @@ public abstract class CrudService<E extends Identifiable<ID>, ID, DTO> {
         return toDto(getRepository().findById(id).orElseThrow(() -> new NotFoundException("Entity not found")));
     }
 
-    public Set<DTO> read() {
-        return getRepository().findAll().stream().map(this::toDto).collect(Collectors.toSet());
+    public Page<DTO> read(Pageable pageable) {
+        return getRepository().findAll(pageable).map(this::toDto);
     }
 
     @Transactional
-    public DTO update(@Valid DTO dto) {
+    public DTO update(ID id, @Valid DTO dto) {
         E entity = toEntity(dto);
+        entity.setId(id);
         validate(entity);
         if (getRepository().existsById(entity.getId())) {
             return toDto(getRepository().save(entity));
