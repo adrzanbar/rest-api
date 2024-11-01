@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.service;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,39 +10,46 @@ import com.uncode.stop.rest_api.error.NotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
-public abstract class CrudService<E extends Identifiable<ID>, ID, DTO> {
+public abstract class CrudService<E extends Identifiable<ID>, ID> {
 
     protected abstract JpaRepository<E, ID> getRepository();
-
-    protected abstract DTO toDto(E entity);
-
-    protected abstract E toEntity(DTO dto);
 
     protected abstract void validate(E entity);
 
     @Transactional
-    public DTO create(@Valid DTO dto) {
-        E entity = toEntity(dto);
-        validate(entity);
+    public E create(@Valid E entity) {
         entity.setId(null);
-        return toDto(getRepository().save(entity));
+        validate(entity);
+        return getRepository().save(entity);
     }
 
-    public DTO read(ID id) {
-        return toDto(getRepository().findById(id).orElseThrow(() -> new NotFoundException("Entity not found")));
+    public E readOne(ID id) {
+        return getRepository().findById(id)
+                .orElseThrow(() -> new NotFoundException("Entity not found"));
     }
 
-    public Page<DTO> read(Pageable pageable) {
-        return getRepository().findAll(pageable).map(this::toDto);
+    public E readOne(E entity) {
+        return getRepository().findOne(Example.of(entity))
+                .orElseThrow(() -> new NotFoundException("Entity not found"));
+    }
+
+    public Page<E> readMany(Pageable pageable) {
+        return getRepository().findAll(pageable);
+    }
+
+    public Page<E> readMany(E entity, Pageable pageable) {
+        return getRepository().findAll(Example.of(entity), pageable);
+    }
+
+    public Page<E> readAll(Pageable pageable) {
+        return getRepository().findAll(pageable);
     }
 
     @Transactional
-    public DTO update(ID id, @Valid DTO dto) {
-        E entity = toEntity(dto);
-        entity.setId(id);
+    public E update(@Valid E entity) {
         validate(entity);
         if (getRepository().existsById(entity.getId())) {
-            return toDto(getRepository().save(entity));
+            return getRepository().save(entity);
         } else {
             throw new NotFoundException("Entity not found");
         }

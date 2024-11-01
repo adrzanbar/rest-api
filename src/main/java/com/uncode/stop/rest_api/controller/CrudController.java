@@ -18,35 +18,44 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.uncode.stop.rest_api.error.NotFoundException;
 import com.uncode.stop.rest_api.error.ServiceException;
+import com.uncode.stop.rest_api.mapper.DtoMapper;
 import com.uncode.stop.rest_api.service.CrudService;
+import com.uncode.stop.rest_api.service.Identifiable;
 
 import jakarta.validation.ConstraintViolationException;
 
-public abstract class CrudController<ID, DTO> {
+public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
 
-    protected abstract CrudService<?, ID, DTO> getService();
+    protected abstract CrudService<E, ID> getService();
+
+    protected abstract DtoMapper<E, DTO> getMapper();
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public DTO create(@RequestBody DTO dto) {
-        return getService().create(dto);
+        return getMapper().toDto(getService().create(getMapper().toEntity(dto)));
     }
 
     @GetMapping("/{id}")
     public DTO read(@PathVariable ID id) {
-        return getService().read(id);
+        return getMapper().toDto(getService().readOne(id));
     }
 
     @GetMapping
     public Page<DTO> read(Pageable pageable) {
-        return getService().read(pageable);
+        return getService().readMany(pageable).map(getMapper()::toDto);
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public DTO update(@PathVariable ID id, @RequestBody DTO dto) {
-        return getService().update(id, dto);
+        E entity = getMapper().toEntity(dto);
+        entity.setId(id);
+        return getMapper().toDto(getService().update(entity));
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public String delete(@PathVariable ID id) {
         getService().delete(id);
         return "Deleted";
@@ -68,13 +77,13 @@ public abstract class CrudController<ID, DTO> {
 
             // Construir un mapa de errores de validación
             // {
-            //     "fieldErrors": {
-            //         "correo": "Correo requerido",
-            //         "apellido": "Apellido requerido",
-            //         "telefono": "Teléfono requerido",
-            //         "nombre": "Nombre requerido"
-            //     },
-            //     "error": "Validation Error"
+            // "fieldErrors": {
+            // "correo": "Correo requerido",
+            // "apellido": "Apellido requerido",
+            // "telefono": "Teléfono requerido",
+            // "nombre": "Nombre requerido"
+            // },
+            // "error": "Validation Error"
             // }
             response.put("error", "Validation Error");
             var errors = new HashMap<String, String>();
