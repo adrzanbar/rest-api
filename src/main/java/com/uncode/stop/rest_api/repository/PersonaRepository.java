@@ -11,8 +11,6 @@ import com.uncode.stop.rest_api.model.Persona;
 @Repository
 public interface PersonaRepository extends JpaRepository<Persona, UUID> {
 
-    boolean existsByCorreo(String correo);
-
     Optional<Persona> findByCorreo(String correo);
 
 }
