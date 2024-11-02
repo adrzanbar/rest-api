@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.uncode.stop.rest_api.error.NotFoundException;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
 public abstract class CrudService<E extends Identifiable<ID>, ID> {
 
@@ -17,7 +16,7 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> {
     protected abstract void validate(E entity);
 
     @Transactional
-    public E create(@Valid E entity) {
+    public E create(E entity) {
         entity.setId(null);
         validate(entity);
         return getRepository().save(entity);
@@ -46,7 +45,7 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> {
     }
 
     @Transactional
-    public E update(@Valid E entity) {
+    public E update(E entity) {
         validate(entity);
         if (getRepository().existsById(entity.getId())) {
             return getRepository().save(entity);

@@ -2,6 +2,7 @@ package com.uncode.stop.rest_api.controller;
 
 import java.util.UUID;
 
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +21,6 @@ public class PersonaController extends CrudController<Persona, UUID, Persona> {
 
     private final PersonaService service;
     private final IdentityMapper<Persona> mapper;
+    private final PagedResourcesAssembler<Persona> assembler;
 
 }
