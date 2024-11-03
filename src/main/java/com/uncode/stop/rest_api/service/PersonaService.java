@@ -2,21 +2,13 @@ package com.uncode.stop.rest_api.service;
 
 import java.util.UUID;
 
-import org.springframework.stereotype.Service;
-
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.model.Persona;
 import com.uncode.stop.rest_api.repository.PersonaRepository;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+public abstract class PersonaService<T extends Persona> extends CrudService<T, UUID> {
 
-@RequiredArgsConstructor
-@Getter
-@Service
-public class PersonaService<T extends Persona> extends CrudService<T, UUID> {
-
-    private final PersonaRepository<T> repository;
+    protected abstract PersonaRepository<T> getRepository();
 
     private void trim(T entity) {
         try {
@@ -44,12 +36,12 @@ public class PersonaService<T extends Persona> extends CrudService<T, UUID> {
                 throw new ServiceException("Invalid field email");
             }
 
-            var existing = repository.findByCorreo(entity.getCorreo());
+            var existing = getRepository().findByCorreo(entity.getCorreo());
             if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
                 throw new ServiceException("Invalid field correo exists");
             }
 
-            existing = repository.findByTelefono(entity.getTelefono());
+            existing = getRepository().findByTelefono(entity.getTelefono());
             if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
                 throw new ServiceException("Invalid field");
             }

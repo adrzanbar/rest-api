@@ -6,22 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uncode.stop.rest_api.mapper.IdentityMapper;
-import com.uncode.stop.rest_api.model.Habitante;
-import com.uncode.stop.rest_api.service.HabitanteService;
+import com.uncode.stop.rest_api.model.Empleado;
+import com.uncode.stop.rest_api.service.EmpleadoService;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-
-
+@RestController
+@RequestMapping("/empleados")
 @RequiredArgsConstructor
 @Getter
-@RestController
-@RequestMapping("/habitantes")
-public class HabitanteController extends CrudController<Habitante, UUID, Habitante> {
+public class EmpleadoController extends CrudController<Empleado, UUID, Empleado> {
 
-    private final HabitanteService service;
-    private final IdentityMapper<Habitante> mapper;
+    private final EmpleadoService service;
+    private final IdentityMapper<Empleado> mapper;
 
 }
-
