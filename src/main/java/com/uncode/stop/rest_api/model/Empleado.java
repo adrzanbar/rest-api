@@ -2,10 +2,10 @@ package com.uncode.stop.rest_api.model;
 
 import org.hibernate.annotations.SoftDelete;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +15,8 @@ import lombok.Setter;
 @Setter
 public class Empleado extends Persona {
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TipoEmpleado tipoEmpleado;
 
 }
