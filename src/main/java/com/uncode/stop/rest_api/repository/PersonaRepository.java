@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.uncode.stop.rest_api.model.Persona;
 
 @Repository
-public interface PersonaRepository extends JpaRepository<Persona, UUID> {
+public interface PersonaRepository<T extends Persona> extends JpaRepository<T, UUID> {
 
-    Optional<Persona> findByCorreo(String correo);
+    Optional<T> findByCorreo(String correo);
 
-    Optional<Persona> findByTelefono(String telefono);
+    Optional<T> findByTelefono(String telefono);
 
 }

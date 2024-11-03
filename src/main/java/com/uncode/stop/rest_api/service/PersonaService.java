@@ -11,14 +11,14 @@ import com.uncode.stop.rest_api.repository.PersonaRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
 @Getter
-public class PersonaService extends CrudService<Persona, UUID> {
+@Service
+public class PersonaService<T extends Persona> extends CrudService<T, UUID> {
 
-    private final PersonaRepository repository;
+    private final PersonaRepository<T> repository;
 
-    private void trim(Persona entity) {
+    private void trim(T entity) {
         try {
             entity.setNombre(entity.getNombre().trim());
             entity.setApellido(entity.getApellido().trim());
@@ -30,7 +30,7 @@ public class PersonaService extends CrudService<Persona, UUID> {
     }
 
     @Override
-    protected void validate(Persona entity) {
+    protected void validate(T entity) {
         trim(entity);
         try {
             if (entity.getNombre().isBlank() || entity.getApellido().isBlank() || entity.getCorreo().isBlank()

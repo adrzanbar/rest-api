@@ -19,7 +19,7 @@ import lombok.Data;
 @Entity
 @SoftDelete(columnName = "eliminado")
 @Data
-public class Persona implements Identifiable<UUID> {
+public abstract class Persona implements Identifiable<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

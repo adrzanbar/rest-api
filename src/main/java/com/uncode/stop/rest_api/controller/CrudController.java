@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +29,6 @@ public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
     protected abstract CrudService<E, ID> getService();
 
     protected abstract DtoMapper<E, DTO> getMapper();
-
-    protected abstract PagedResourcesAssembler<DTO> getAssembler();
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

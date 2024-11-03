@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 public abstract class CrudService<E extends Identifiable<ID>, ID> {
 
     protected abstract JpaRepository<E, ID> getRepository();
-
     protected abstract void validate(E entity);
 
     @Transactional
