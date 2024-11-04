@@ -2,6 +2,10 @@ package com.uncode.stop.rest_api.service;
 
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.uncode.stop.rest_api.entity.Usuario;
@@ -23,20 +27,18 @@ public class UsuarioService extends CrudService<Usuario, UUID> {
     protected void validate(Usuario entity) {
         try {
             EntityUtils.trimStringFields(entity);
-
             var existing = repository.findByCuenta(entity.getCuenta());
             if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
                 throw new ServiceException("cuenta");
             }
-
             if (entity.getRol() == null) {
                 throw new ServiceException("rol");
             }
-
         } catch (IllegalAccessException e) {
             throw new ServiceException("error");
         } catch (NullPointerException e) {
             throw new ServiceException("null fields");
         }
     }
+
 }
