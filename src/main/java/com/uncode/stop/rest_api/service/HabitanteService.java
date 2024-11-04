@@ -2,7 +2,7 @@ package com.uncode.stop.rest_api.service;
 
 import org.springframework.stereotype.Service;
 
-import com.uncode.stop.rest_api.model.Habitante;
+import com.uncode.stop.rest_api.entity.Habitante;
 import com.uncode.stop.rest_api.repository.HabitanteRepository;
 
 import lombok.Getter;

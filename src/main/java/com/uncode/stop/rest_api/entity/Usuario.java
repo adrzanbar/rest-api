@@ -1,9 +1,8 @@
-package com.uncode.stop.rest_api.model;
+package com.uncode.stop.rest_api.entity;
 
 import java.util.UUID;
 
 import org.hibernate.annotations.SoftDelete;
-import org.hibernate.validator.constraints.Length;
 
 import com.uncode.stop.rest_api.service.Identifiable;
 
@@ -34,7 +33,6 @@ public class Usuario implements Identifiable<UUID> {
     private String cuenta;
 
     @NotBlank
-    @Length(min = 8)
     @Column(nullable = false)
     private String clave;
 

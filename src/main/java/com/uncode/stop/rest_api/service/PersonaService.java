@@ -2,29 +2,20 @@ package com.uncode.stop.rest_api.service;
 
 import java.util.UUID;
 
+import com.uncode.stop.rest_api.entity.Persona;
 import com.uncode.stop.rest_api.error.ServiceException;
-import com.uncode.stop.rest_api.model.Persona;
 import com.uncode.stop.rest_api.repository.PersonaRepository;
+import com.uncode.stop.rest_api.util.EntityUtils;
 
 public abstract class PersonaService<T extends Persona> extends CrudService<T, UUID> {
 
     protected abstract PersonaRepository<T> getRepository();
 
-    private void trim(T entity) {
-        try {
-            entity.setNombre(entity.getNombre().trim());
-            entity.setApellido(entity.getApellido().trim());
-            entity.setCorreo(entity.getCorreo().trim());
-            entity.setTelefono(entity.getTelefono().trim());
-        } catch (NullPointerException e) {
-            throw new ServiceException("null fields");
-        }
-    }
-
     @Override
     protected void validate(T entity) {
-        trim(entity);
         try {
+            EntityUtils.trimStringFields(entity);
+
             if (entity.getNombre().isBlank() || entity.getApellido().isBlank() || entity.getCorreo().isBlank()
                     || entity.getTelefono().isBlank()) {
                 throw new ServiceException("blank fields");
@@ -47,6 +38,8 @@ public abstract class PersonaService<T extends Persona> extends CrudService<T, U
             }
         } catch (NullPointerException e) {
             throw new ServiceException("null fields");
+        } catch (IllegalAccessException e) {
+            throw new ServiceException("error");
         }
 
     }

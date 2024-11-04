@@ -1,4 +1,4 @@
-package com.uncode.stop.rest_api.model;
+package com.uncode.stop.rest_api.entity;
 
 public enum Rol {
     ADMIN,

@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uncode.stop.rest_api.entity.Habitante;
 import com.uncode.stop.rest_api.mapper.IdentityMapper;
-import com.uncode.stop.rest_api.model.Habitante;
 import com.uncode.stop.rest_api.service.HabitanteService;
 
 import lombok.Getter;

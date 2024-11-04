@@ -2,8 +2,8 @@ package com.uncode.stop.rest_api.service;
 
 import org.springframework.stereotype.Service;
 
+import com.uncode.stop.rest_api.entity.Empleado;
 import com.uncode.stop.rest_api.error.ServiceException;
-import com.uncode.stop.rest_api.model.Empleado;
 import com.uncode.stop.rest_api.repository.EmpleadoRepository;
 
 import lombok.Getter;
