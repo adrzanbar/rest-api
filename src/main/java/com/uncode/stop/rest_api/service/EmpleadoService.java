@@ -18,6 +18,14 @@ public class EmpleadoService extends PersonaService<Empleado> {
 
     @Override
     protected void validate(Empleado entity) {
+        try {
+            var existing = repository.findByLegajo(entity.getLegajo());
+            if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
+                throw new ServiceException("legajo");
+            }
+        } catch (NullPointerException e) {
+            throw new ServiceException("null fields");
+        }
         if (entity.getTipoEmpleado() == null) {
             throw new ServiceException("tipoEmpleado");
         }
