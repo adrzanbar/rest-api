@@ -19,7 +19,7 @@ public class EmpleadoService extends PersonaService<Empleado> {
     @Override
     protected void validate(Empleado entity) {
         if (entity.getTipoEmpleado() == null) {
-            throw new ServiceException("Invalid field tipoEmpleado");
+            throw new ServiceException("tipoEmpleado");
         }
         super.validate(entity);
     }

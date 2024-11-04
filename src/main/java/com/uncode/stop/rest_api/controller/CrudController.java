@@ -61,39 +61,4 @@ public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
         return "Deleted";
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("error", "Validation Error");
-        var errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
-        });
-        response.put("fieldErrors", errors);
-        return response;
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, Object> handleNotFoundException(NotFoundException e) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("error", "Not Found");
-        response.put("message", "The requested resource was not found.");
-        return response;
-    }
-
-    @ExceptionHandler(ServiceException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleServiceException(ServiceException e) {
-        return e.getMessage();
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleException(Exception e) {
-        // return e.getMessage();
-        return "Error interno del servidor";
-    }
-
 }
