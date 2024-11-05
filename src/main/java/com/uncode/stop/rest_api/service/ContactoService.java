@@ -1,24 +1,17 @@
 package com.uncode.stop.rest_api.service;
 
-import java.util.UUID;
-
 import com.uncode.stop.rest_api.entity.Contacto;
 import com.uncode.stop.rest_api.error.ServiceException;
-import com.uncode.stop.rest_api.repository.ContactoRepository;
 import com.uncode.stop.rest_api.util.EntityUtils;
 
-public abstract class ContactoService<T extends Contacto> extends CrudService<T, UUID> {
+public abstract class ContactoService {
 
-    protected abstract ContactoRepository<T> getRepository();
+    public void validate(Contacto entity) {
+        EntityUtils.trimStringFields(entity);
 
-    @Override
-    protected void validate(Contacto entity) {
-        try {
-            EntityUtils.trimStringFields(entity);
-        } catch (IllegalAccessException e) {
-        }
-        if (entity.getTipoContacto() == null) {
-            throw new ServiceException("null fields");
+        var tipoContacto = entity.getTipoContacto();
+        if (tipoContacto == null) {
+            throw new ServiceException("TipoContacto required");
         }
     }
 

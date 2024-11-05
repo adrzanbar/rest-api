@@ -10,7 +10,7 @@ public class EntityUtils {
      * @param obj The object whose String fields are to be trimmed.
      * @throws IllegalAccessException If a field is inaccessible.
      */
-    public static void trimStringFields(Object obj) throws IllegalAccessException {
+    public static void trimStringFields(Object obj) {
         if (obj == null) {
             return;
         }
@@ -24,32 +24,36 @@ public class EntityUtils {
                 field.setAccessible(true); // Allow access to private fields
 
                 // Get the value of the field
-                String value = (String) field.get(obj);
+                String value;
+                try {
+                    value = (String) field.get(obj);
 
-                // Trim the value if it's non-null
-                if (value != null) {
-                    field.set(obj, value.trim());
+                    // Trim the value if it's non-null
+                    if (value != null) {
+                        field.set(obj, value.trim());
+                    }
+                } catch (Exception e) {
                 }
+
             }
         }
     }
 
     // public static void main(String[] args) {
-    //     // Create an object with String fields
-    //     var obj = new Usuario();
-    //     obj.setCuenta("  Hello  ");
-    //     obj.setClave("  World  ");
+    // // Create an object with String fields
+    // var obj = new Usuario();
+    // obj.setCuenta(" Hello ");
+    // obj.setClave(" World ");
 
+    // try {
+    // // Trim the String fields
+    // trimStringFields(obj);
 
-    //     try {
-    //         // Trim the String fields
-    //         trimStringFields(obj);
-
-    //         // Print the trimmed fields
-    //         System.out.println(obj.getCuenta()); // Output: "Hello"
-    //         System.out.println(obj.getClave()); // Output: "World"
-    //     } catch (IllegalAccessException e) {
-    //         e.printStackTrace();
-    //     }
+    // // Print the trimmed fields
+    // System.out.println(obj.getCuenta()); // Output: "Hello"
+    // System.out.println(obj.getClave()); // Output: "World"
+    // } catch (IllegalAccessException e) {
+    // e.printStackTrace();
+    // }
     // }
 }

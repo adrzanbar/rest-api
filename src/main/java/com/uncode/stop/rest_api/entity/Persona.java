@@ -6,6 +6,7 @@ import org.hibernate.annotations.SoftDelete;
 
 import com.uncode.stop.rest_api.service.Identifiable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,10 +33,10 @@ public abstract class Persona implements Identifiable<UUID> {
     @Column(nullable = false)
     private String apellido;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Contacto contacto;
 
 }

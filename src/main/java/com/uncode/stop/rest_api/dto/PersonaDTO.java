@@ -1,6 +1,5 @@
 package com.uncode.stop.rest_api.dto;
 
-import com.uncode.stop.rest_api.entity.Contacto;
 import com.uncode.stop.rest_api.entity.TipoContacto;
 import com.uncode.stop.rest_api.entity.TipoEmpleado;
 import com.uncode.stop.rest_api.entity.TipoTelefono;

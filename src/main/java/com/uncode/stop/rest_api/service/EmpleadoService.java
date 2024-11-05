@@ -7,15 +7,19 @@ import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.EmpleadoRepository;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-@Getter
 @Service
 public class EmpleadoService extends PersonaService<Empleado> {
 
+    @Getter
     private final EmpleadoRepository repository;
-    private final ContactoServiceFactory contactoServiceFactory;
+
+    public EmpleadoService(EmpleadoRepository repository, UsuarioService usuarioService,
+            ContactoTelefonicoService contactoTelefonicoService,
+            ContactoCorreoElectronicoService contactoEmailService) {
+        super(usuarioService, contactoTelefonicoService, contactoEmailService);
+        this.repository = repository;
+    }
 
     @Override
     protected void validate(Empleado entity) {
