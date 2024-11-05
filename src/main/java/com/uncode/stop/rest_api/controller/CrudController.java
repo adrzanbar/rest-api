@@ -20,7 +20,6 @@ import jakarta.validation.Valid;
 public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
 
     protected abstract CrudService<E, ID> getService();
-
     protected abstract DtoMapper<E, DTO> getMapper();
 
     @PostMapping

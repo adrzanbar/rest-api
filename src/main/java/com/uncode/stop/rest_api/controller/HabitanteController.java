@@ -12,8 +12,6 @@ import com.uncode.stop.rest_api.service.HabitanteService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-
-
 @RequiredArgsConstructor
 @Getter
 @RestController

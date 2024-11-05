@@ -14,5 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class HabitanteService extends PersonaService<Habitante> {
 
     private final HabitanteRepository repository;
+	private final ContactoServiceFactory contactoServiceFactory;
 
 }

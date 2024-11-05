@@ -15,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class EmpleadoService extends PersonaService<Empleado> {
 
     private final EmpleadoRepository repository;
+    private final ContactoServiceFactory contactoServiceFactory;
 
     @Override
     protected void validate(Empleado entity) {
+        super.validate(entity);
         try {
             var existing = repository.findByLegajo(entity.getLegajo());
             if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
@@ -29,6 +31,5 @@ public class EmpleadoService extends PersonaService<Empleado> {
         if (entity.getTipoEmpleado() == null) {
             throw new ServiceException("tipoEmpleado");
         }
-        super.validate(entity);
     }
 }

@@ -11,12 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,31 +20,22 @@ import lombok.Setter;
 @Setter
 @Entity
 @SoftDelete(columnName = "eliminado")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Persona implements Identifiable<UUID> {
+public abstract class Persona implements Identifiable<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
     @Column(nullable = false)
     private String nombre;
 
-    @NotBlank
     @Column(nullable = false)
     private String apellido;
 
-    @NotNull
-    @Email
-    @Column(nullable = false)
-    private String correo;
-
-    @NotBlank
-    @Column(nullable = false)
-    private String telefono;
-
     @OneToOne
     private Usuario usuario;
+
+    @ManyToOne
+    private Contacto contacto;
 
 }
