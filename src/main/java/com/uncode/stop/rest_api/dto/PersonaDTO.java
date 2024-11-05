@@ -19,7 +19,6 @@ public class PersonaDTO {
     private String nombre;
     @NotBlank
     private String apellido;
-    @NotNull
     private Usuario usuario;
 
     // Empleado

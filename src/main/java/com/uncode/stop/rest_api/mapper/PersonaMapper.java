@@ -12,14 +12,10 @@ import com.uncode.stop.rest_api.entity.Habitante;
 import com.uncode.stop.rest_api.entity.Persona;
 import com.uncode.stop.rest_api.error.ServiceException;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Component
 @RequiredArgsConstructor
-@Getter
-@Setter
 public class PersonaMapper implements DtoMapper<Persona, PersonaDTO> {
 
     private final ModelMapper mapper;
@@ -36,24 +32,29 @@ public class PersonaMapper implements DtoMapper<Persona, PersonaDTO> {
             throw new ServiceException("Both telefono and email cannot be set");
         }
 
-        Contacto contacto = null;
-        if (dto.getTelefono() != null) {
-            contacto = new ContactoTelefonico();
-            ((ContactoTelefonico) contacto).setTelefono(dto.getTelefono());
-            ((ContactoTelefonico) contacto).setTipoTelefono(dto.getTipoTelefono());
-        } else if (dto.getEmail() != null) {
-            contacto = new ContactoCorreoElectronico();
-            ((ContactoCorreoElectronico) contacto).setEmail(dto.getEmail());
-        }
-
         Persona persona = null;
         if (dto.getLegajo() != null) {
             persona = mapper.map(dto, Empleado.class);
-            ((Empleado) persona).setContacto(contacto);
         } else {
             persona = mapper.map(dto, Habitante.class);
-            ((Habitante) persona).setContacto(contacto);
         }
+
+        Contacto contacto = null;
+
+        var email = dto.getEmail();
+        if (email != null) {
+            contacto = new ContactoCorreoElectronico();
+            ((ContactoCorreoElectronico) contacto).setEmail(email);
+        } else {
+            var telefono = dto.getTelefono();
+            if (telefono != null) {
+                contacto = new ContactoTelefonico();
+                ((ContactoTelefonico) contacto).setTelefono(telefono);
+                ((ContactoTelefonico) contacto).setTipoTelefono(dto.getTipoTelefono());
+            }
+        }
+
+        persona.setContacto(contacto);
         return persona;
     }
 

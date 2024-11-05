@@ -1,8 +1,11 @@
 package com.uncode.stop.rest_api.service;
 
+import org.springframework.stereotype.Service;
+
 import com.uncode.stop.rest_api.entity.ContactoTelefonico;
 import com.uncode.stop.rest_api.error.ServiceException;
 
+@Service
 public class ContactoTelefonicoService extends ContactoService {
 
     public void validate(ContactoTelefonico entity) {
