@@ -155,4 +155,8 @@ public class PersonaService extends CrudService<Persona, UUID, PersonaDTO> {
         return mapper.map(entity, PersonaDTO.class);
     }
 
+    public Empleado readOneEmpleado(UUID id) {
+        return empleadoRepository.findById(id).orElseThrow(
+                () -> new ServiceException("empleado not found"));
+    }
 }

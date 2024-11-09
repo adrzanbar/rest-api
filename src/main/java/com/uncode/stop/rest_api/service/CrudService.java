@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public abstract class CrudService<E extends Identifiable<ID>, ID, DTO> implements Validator<E> {
 
-    private final JpaRepository<E, ID> repository;
+    protected final JpaRepository<E, ID> repository;
 
     public abstract E toEntity(DTO dto);
 
