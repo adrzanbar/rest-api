@@ -6,6 +6,7 @@ import org.hibernate.annotations.SoftDelete;
 
 import com.uncode.stop.rest_api.service.Identifiable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,16 +16,20 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@SoftDelete(columnName = "eliminado")
 @Getter
 @Setter
-public abstract class Contacto implements Identifiable<UUID> {
+@Entity
+@SoftDelete(columnName = "eliminado")
+public class Contacto implements Identifiable<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoContacto tipoContacto;
+    private TipoContacto TipoContacto;
+
     private String observacion;
+
 }

@@ -1,6 +1,5 @@
 package com.uncode.stop.rest_api.service;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,45 +8,37 @@ import com.uncode.stop.rest_api.error.NotFoundException;
 
 import jakarta.transaction.Transactional;
 
-public abstract class CrudService<E extends Identifiable<ID>, ID> {
+public abstract class CrudService<E extends Identifiable<ID>, ID, DTO> implements Validator<E> {
 
-    protected abstract JpaRepository<E, ID> getRepository();
-    protected abstract void validate(E entity);
+    private JpaRepository<E, ID> repository;
+
+    public abstract E toEntity(DTO dto);
+
+    public abstract DTO toDTO(E entity);
 
     @Transactional
-    public E create(E entity) {
+    public DTO create(DTO dto) {
+        var entity = toEntity(dto);
         entity.setId(null);
         validate(entity);
-        return getRepository().save(entity);
+        return toDTO(repository.save(entity));
     }
 
-    public E readOne(ID id) {
-        return getRepository().findById(id)
-                .orElseThrow(() -> new NotFoundException("Entity not found"));
+    public DTO readOne(ID id) {
+        return toDTO(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Entity not found")));
     }
 
-    public E readOne(E entity) {
-        return getRepository().findOne(Example.of(entity))
-                .orElseThrow(() -> new NotFoundException("Entity not found"));
-    }
-
-    public Page<E> readMany(Pageable pageable) {
-        return getRepository().findAll(pageable);
-    }
-
-    public Page<E> readMany(E entity, Pageable pageable) {
-        return getRepository().findAll(Example.of(entity), pageable);
-    }
-
-    public Page<E> readAll(Pageable pageable) {
-        return getRepository().findAll(pageable);
+    public Page<DTO> readAll(Pageable pageable) {
+        return repository.findAll(pageable).map(this::toDTO);
     }
 
     @Transactional
-    public E update(E entity) {
+    public DTO update(DTO dto) {
+        var entity = toEntity(dto);
         validate(entity);
-        if (getRepository().existsById(entity.getId())) {
-            return getRepository().save(entity);
+        if (repository.existsById(entity.getId())) {
+            return toDTO(repository.save(entity));
         } else {
             throw new NotFoundException("Entity not found");
         }
@@ -55,8 +46,8 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> {
 
     @Transactional
     public void delete(ID id) {
-        if (getRepository().existsById(id)) {
-            getRepository().deleteById(id);
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
         } else {
             throw new NotFoundException("Entity not found");
         }

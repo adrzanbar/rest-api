@@ -1,5 +1,7 @@
 package com.uncode.stop.rest_api.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.SoftDelete;
@@ -12,7 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +23,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @SoftDelete(columnName = "eliminado")
-public abstract class Persona implements Identifiable<UUID> {
+public class Persona implements Identifiable<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,10 +35,10 @@ public abstract class Persona implements Identifiable<UUID> {
     @Column(nullable = false)
     private String apellido;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(optional = false)
     private Usuario usuario;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Contacto contacto;
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+    private List<Contacto> contactos = new ArrayList<>();
 
 }
