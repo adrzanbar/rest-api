@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.uncode.stop.rest_api.dto.ContactoDTO;
 import com.uncode.stop.rest_api.dto.PersonaDTO;
 import com.uncode.stop.rest_api.entity.Contacto;
 import com.uncode.stop.rest_api.entity.ContactoCorreoElectronico;
@@ -54,27 +53,7 @@ public class PersonaDTOAdapter implements DTOAdapter<Persona, PersonaDTO> {
 
     @Override
     public PersonaDTO toDTO(Persona entity) {
-        // return mapper.map(entity, PersonaDTO.class);
-        var dto = new PersonaDTO();
-        dto.setId(entity.getId());
-        dto.setNombre(entity.getNombre());
-        dto.setApellido(entity.getApellido());
-        dto.setUsuario(entity.getUsuario());
-        var contactos = entity.getContactos();
-        var mappedContactos = new ArrayList<ContactoDTO>();
-        for (var contacto : contactos) {
-            mappedContactos.add(mapper.map(contacto, ContactoDTO.class));
-        }
-        dto.setContactos(mappedContactos);
-        if (entity instanceof Empleado) {
-            var empleado = (Empleado) entity;
-            dto.setLegajo(empleado.getLegajo());
-            dto.setTipoEmpleado(empleado.getTipoEmpleado());
-        } else if (entity instanceof Habitante) {
-            var habitante = (Habitante) entity;
-            dto.setInmuebleId(habitante.getInmueble().getId());
-        }
-        return dto;
+        return mapper.map(entity, PersonaDTO.class);
     }
 
 }

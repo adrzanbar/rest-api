@@ -36,10 +36,10 @@ public class Persona implements Identifiable<UUID> {
     @Column(nullable = false)
     private String apellido;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private Usuario usuario;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Contacto> contactos = new ArrayList<>();
 
 }
