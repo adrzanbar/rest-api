@@ -15,6 +15,7 @@ import com.uncode.stop.rest_api.entity.Habitante;
 import com.uncode.stop.rest_api.entity.Persona;
 import com.uncode.stop.rest_api.entity.Usuario;
 import com.uncode.stop.rest_api.error.ServiceException;
+import com.uncode.stop.rest_api.repository.EmpleadoRepository;
 import com.uncode.stop.rest_api.repository.PersonaRepository;
 
 @Service

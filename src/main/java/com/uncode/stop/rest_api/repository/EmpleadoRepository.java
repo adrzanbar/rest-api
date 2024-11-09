@@ -1,4 +1,4 @@
-package com.uncode.stop.rest_api.service;
+package com.uncode.stop.rest_api.repository;
 
 import java.util.Optional;
 import java.util.UUID;
