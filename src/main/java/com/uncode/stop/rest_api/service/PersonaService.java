@@ -3,109 +3,73 @@ package com.uncode.stop.rest_api.service;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.uncode.stop.rest_api.dto.PersonaDTO;
-import com.uncode.stop.rest_api.entity.Contacto;
 import com.uncode.stop.rest_api.entity.ContactoCorreoElectronico;
-import com.uncode.stop.rest_api.entity.ContactoTelefonico;
 import com.uncode.stop.rest_api.entity.Empleado;
 import com.uncode.stop.rest_api.entity.Habitante;
 import com.uncode.stop.rest_api.entity.Persona;
-import com.uncode.stop.rest_api.entity.Usuario;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.EmpleadoRepository;
 import com.uncode.stop.rest_api.repository.PersonaRepository;
 
 @Service
-public class PersonaService extends CrudService<Persona, UUID, PersonaDTO> {
+public class PersonaService extends CrudService<Persona, UUID> {
 
     private final PersonaRepository repository;
-    private final ModelMapper mapper;
     private final EmpleadoRepository empleadoRepository;
-    // https://emailregex.com/
-    private final String EMAIL_REGEX = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    private final UsuarioService usuarioService;
+    private final ContactoService contactoService;
+    private final InmuebleService inmuebleService;
 
-    public PersonaService(PersonaRepository repository, ModelMapper mapper, EmpleadoRepository empleadoRepository) {
+    public PersonaService(PersonaRepository repository, EmpleadoRepository empleadoRepository,
+            UsuarioService usuarioService, ContactoService contactoService, InmuebleService inmuebleService) {
         super(repository);
         this.repository = repository;
-        this.mapper = mapper;
         this.empleadoRepository = empleadoRepository;
+        this.usuarioService = usuarioService;
+        this.contactoService = contactoService;
+        this.inmuebleService = inmuebleService;
     }
 
     @Override
-    public void validate(Persona object) {
-        var nombre = object.getNombre();
+    public void validate(Persona entity) {
+        var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
             throw new ServiceException("nombre required");
         }
 
-        var apellido = object.getApellido();
+        var apellido = entity.getApellido();
         if (apellido == null || apellido.isBlank()) {
             throw new ServiceException("apellido required");
         }
 
-        var usuario = object.getUsuario();
+        var usuario = entity.getUsuario();
         if (usuario == null) {
             throw new ServiceException("usuario required");
         }
 
-        var cuenta = usuario.getCuenta();
-        if (cuenta == null || cuenta.isBlank()) {
-            throw new ServiceException("cuenta required");
-        }
+        usuarioService.validate(usuario);
 
-        var clave = usuario.getClave();
-        if (clave == null || clave.isBlank()) {
-            throw new ServiceException("clave required");
-        }
-
-        var rol = usuario.getRol();
-        if (rol == null) {
-            throw new ServiceException("rol required");
-        }
-
-        var contactos = object.getContactos();
+        var contactos = entity.getContactos();
         if (contactos == null) {
-            object.setContactos(new ArrayList<>());
-            contactos = object.getContactos();
+            entity.setContactos(new ArrayList<>());
+            contactos = entity.getContactos();
         }
 
         for (var contacto : contactos) {
-            if (contacto.getTipoContacto() == null) {
-                throw new ServiceException("tipoContacto required");
-            }
-
-            if (contacto instanceof ContactoTelefonico) {
-                var telefono = ((ContactoTelefonico) contacto).getTelefono();
-                if (telefono == null || telefono.isBlank()) {
-                    throw new ServiceException("telefono required");
-                }
-
-                var tipoTelefono = ((ContactoTelefonico) contacto).getTipoTelefono();
-                if (tipoTelefono == null) {
-                    throw new ServiceException("tipoTelefono required");
-                }
-            } else if (contacto instanceof ContactoCorreoElectronico) {
+            contactoService.validate(contacto);
+            if (contacto instanceof ContactoCorreoElectronico) {
                 var email = ((ContactoCorreoElectronico) contacto).getEmail();
-                if (email == null || email.isBlank()) {
-                    throw new ServiceException("email required");
-                }
-
-                if (!email.matches(EMAIL_REGEX)) {
-                    throw new ServiceException("email invalid");
-                }
-
                 var existing = repository.findByEmail(email);
-                if (existing.isPresent() && !existing.get().getId().equals(object.getId())) {
+                if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
                     throw new ServiceException("email must be unique");
                 }
             }
         }
 
-        if (object instanceof Empleado) {
-            var empleado = (Empleado) object;
+        if (entity instanceof Empleado) {
+            var empleado = (Empleado) entity;
             var legajo = empleado.getLegajo();
             if (legajo == null || legajo.isBlank()) {
                 throw new ServiceException("legajo required");
@@ -120,43 +84,14 @@ public class PersonaService extends CrudService<Persona, UUID, PersonaDTO> {
             if (tipoEmpleado == null) {
                 throw new ServiceException("tipoEmpleado required");
             }
-        }
-    }
-
-    @Override
-    public Persona toEntity(PersonaDTO dto) {
-        Persona persona;
-        if (dto.getLegajo() != null) {
-            persona = mapper.map(dto, Empleado.class);
-        } else {
-            persona = mapper.map(dto, Habitante.class);
-        }
-
-        persona.setUsuario(mapper.map(dto, Usuario.class));
-
-        var contactos = dto.getContactos();
-        var mappedContactos = new ArrayList<Contacto>();
-        for (var contacto : contactos) {
-            var email = contacto.getEmail();
-            var telefono = contacto.getTelefono();
-            if (email != null) {
-                mappedContactos.add(mapper.map(contacto, ContactoCorreoElectronico.class));
-            } else if (telefono != null) {
-                mappedContactos.add(mapper.map(contacto, ContactoTelefonico.class));
+        } else if (entity instanceof Habitante) {
+            var habitante = (Habitante) entity;
+            var inmueble = habitante.getInmueble();
+            if (inmueble == null || inmueble.getId() == null) {
+                throw new ServiceException("inmueble required");
             }
+            inmuebleService.validate(inmueble);
         }
-        persona.setContactos(mappedContactos);
-
-        return persona;
     }
 
-    @Override
-    public PersonaDTO toDTO(Persona entity) {
-        return mapper.map(entity, PersonaDTO.class);
-    }
-
-    public Empleado readOneEmpleado(UUID id) {
-        return empleadoRepository.findById(id).orElseThrow(
-                () -> new ServiceException("empleado not found"));
-    }
 }

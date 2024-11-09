@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.uncode.stop.rest_api.service.Identifiable;
+import com.uncode.stop.rest_api.entity.TipoEmpleado;
+import com.uncode.stop.rest_api.entity.Usuario;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PersonaDTO implements Identifiable<UUID> {
+public class PersonaDTO {
 
     // Persona
     private UUID id;
@@ -20,11 +21,14 @@ public class PersonaDTO implements Identifiable<UUID> {
     private String nombre;
     @NotBlank
     private String apellido;
-    private UsuarioDTO usuario;
+    private Usuario usuario;
     private List<ContactoDTO> contactos = new ArrayList<>();
 
     // Empleado
     private String legajo;
-    private String tipoEmpleado;
+    private TipoEmpleado tipoEmpleado;
+
+    //Habitante
+    private UUID inmuebleId;
 
 }

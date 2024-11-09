@@ -10,37 +10,32 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class CrudService<E extends Identifiable<ID>, ID, DTO> implements Validator<E> {
+public abstract class CrudService<E extends Identifiable<ID>, ID> implements Validator<E> {
 
     protected final JpaRepository<E, ID> repository;
 
-    public abstract E toEntity(DTO dto);
-
-    public abstract DTO toDTO(E entity);
-
     @Transactional
-    public DTO create(DTO dto) {
-        var entity = toEntity(dto);
+    public E create(E entity) {
         entity.setId(null);
         validate(entity);
-        return toDTO(repository.save(entity));
+        return repository.save(entity);
     }
 
-    public DTO readOne(ID id) {
-        return toDTO(repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Entity not found")));
+    public E readOne(ID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Entity not found"));
     }
 
-    public Page<DTO> readAll(Pageable pageable) {
-        return repository.findAll(pageable).map(this::toDTO);
+    public Page<E> readAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Transactional
-    public DTO update(DTO dto) {
-        var entity = toEntity(dto);
+    public E update(ID id, E entity) {
+        entity.setId(id);
         validate(entity);
         if (repository.existsById(entity.getId())) {
-            return toDTO(repository.save(entity));
+            return repository.save(entity);
         } else {
             throw new NotFoundException("Entity not found");
         }

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.uncode.stop.rest_api.entity.EstadoAsistencia;
-import com.uncode.stop.rest_api.service.Identifiable;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PlanillaHorariaDTO implements Identifiable<UUID> {
+public class PlanillaHorariaDTO {
 
     private UUID id;
     @NotNull

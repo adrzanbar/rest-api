@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.uncode.stop.rest_api.entity.TipoContacto;
 import com.uncode.stop.rest_api.entity.TipoTelefono;
-import com.uncode.stop.rest_api.service.Identifiable;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ContactoDTO implements Identifiable<UUID> {
+public class ContactoDTO {
 
     // Contacto
     private UUID id;

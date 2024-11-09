@@ -1,6 +1,7 @@
 package com.uncode.stop.rest_api.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +9,8 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Habitante extends Persona {
+
+    @OneToOne(optional = false)
+    private Inmueble inmueble;
 
 }

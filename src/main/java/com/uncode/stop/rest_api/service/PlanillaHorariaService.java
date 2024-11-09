@@ -2,24 +2,19 @@ package com.uncode.stop.rest_api.service;
 
 import java.util.UUID;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.uncode.stop.rest_api.dto.PlanillaHorariaDTO;
 import com.uncode.stop.rest_api.entity.PlanillaHoraria;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.PlanillaHorariaRepository;
 
 @Service
-public class PlanillaHorariaService extends CrudService<PlanillaHoraria, UUID, PlanillaHorariaDTO> {
+public class PlanillaHorariaService extends CrudService<PlanillaHoraria, UUID> {
 
-    private final ModelMapper mapper;
     private final PersonaService personaService;
 
-    public PlanillaHorariaService(PlanillaHorariaRepository repository, ModelMapper mapper,
-            PersonaService personaService) {
+    public PlanillaHorariaService(PlanillaHorariaRepository repository, PersonaService personaService) {
         super(repository);
-        this.mapper = mapper;
         this.personaService = personaService;
     }
 
@@ -45,20 +40,6 @@ public class PlanillaHorariaService extends CrudService<PlanillaHoraria, UUID, P
             throw new ServiceException("empleado required");
         }
         personaService.validate(empleado);
-    }
-
-    @Override
-    public PlanillaHoraria toEntity(PlanillaHorariaDTO dto) {
-        var entity = mapper.map(dto, PlanillaHoraria.class);
-        entity.setEmpleado(personaService.readOneEmpleado(dto.getEmpleadoId()));
-        return entity;
-    }
-
-    @Override
-    public PlanillaHorariaDTO toDTO(PlanillaHoraria entity) {
-        var dto = mapper.map(entity, PlanillaHorariaDTO.class);
-        dto.setEmpleadoId(entity.getEmpleado().getId());
-        return dto;
     }
 
 }
