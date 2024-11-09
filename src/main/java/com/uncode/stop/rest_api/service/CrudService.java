@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.uncode.stop.rest_api.error.NotFoundException;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public abstract class CrudService<E extends Identifiable<ID>, ID, DTO> implements Validator<E> {
 
-    private JpaRepository<E, ID> repository;
+    private final JpaRepository<E, ID> repository;
 
     public abstract E toEntity(DTO dto);
 

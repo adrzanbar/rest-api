@@ -15,10 +15,12 @@ import com.uncode.stop.rest_api.service.CrudService;
 import com.uncode.stop.rest_api.service.Identifiable;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
 
-    protected CrudService<E, ID, DTO> service;
+    private final CrudService<E, ID, DTO> service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
