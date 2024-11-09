@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.uncode.stop.rest_api.service.Identifiable;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PersonaDTO {
+public class PersonaDTO implements Identifiable<UUID> {
 
     // Persona
     private UUID id;

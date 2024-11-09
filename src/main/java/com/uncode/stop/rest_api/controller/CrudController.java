@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
+public abstract class CrudController<E extends Identifiable<ID>, ID, DTO extends Identifiable<ID>> {
 
     private final CrudService<E, ID, DTO> service;
 
@@ -41,6 +41,7 @@ public abstract class CrudController<E extends Identifiable<ID>, ID, DTO> {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public DTO update(@PathVariable ID id, @Valid @RequestBody DTO dto) {
+        dto.setId(id);
         return service.update(dto);
     }
 

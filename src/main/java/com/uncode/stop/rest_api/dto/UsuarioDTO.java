@@ -3,6 +3,7 @@ package com.uncode.stop.rest_api.dto;
 import java.util.UUID;
 
 import com.uncode.stop.rest_api.entity.Rol;
+import com.uncode.stop.rest_api.service.Identifiable;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UsuarioDTO {
+public class UsuarioDTO implements Identifiable<UUID> {
 
     private UUID id;
     @NotBlank

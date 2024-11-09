@@ -13,11 +13,9 @@ import com.uncode.stop.rest_api.service.PersonaService;
 @RequestMapping("/personas")
 public class PersonaController extends CrudController<Persona, UUID, PersonaDTO> {
 
-    private final PersonaService service;
 
     public PersonaController(PersonaService service) {
         super(service);
-        this.service = service;
     }
 
 }
