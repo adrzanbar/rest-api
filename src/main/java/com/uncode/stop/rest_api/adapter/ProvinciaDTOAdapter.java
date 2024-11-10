@@ -19,14 +19,14 @@ public class ProvinciaDTOAdapter implements DTOAdapter<Provincia, ProvinciaDTO> 
     @Override
     public ProvinciaDTO toDTO(Provincia entity) {
         var dto = mapper.map(entity, ProvinciaDTO.class);
-        dto.setPaisId(entity.getPais().getId());
+        dto.setPais(entity.getPais());
         return dto;
     }
 
     @Override
     public Provincia toEntity(ProvinciaDTO dto) {
         var entity = mapper.map(dto, Provincia.class);
-        entity.setPais(paisService.readOne(dto.getPaisId()));
+        entity.setPais(paisService.readOne(dto.getPais().getId()));
         return entity;
     }
 
