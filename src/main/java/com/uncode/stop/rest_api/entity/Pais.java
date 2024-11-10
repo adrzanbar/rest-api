@@ -1,6 +1,5 @@
 package com.uncode.stop.rest_api.entity;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.SoftDelete;
@@ -12,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +25,7 @@ public class Pais implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
     
+    @NotBlank
     @Column(nullable = false)
     private String nombre;
 }

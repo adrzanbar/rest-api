@@ -1,6 +1,5 @@
 package com.uncode.stop.rest_api.service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -12,11 +11,8 @@ import com.uncode.stop.rest_api.repository.PaisRepository;
 @Service
 public class PaisService extends CrudService<Pais, UUID>{
 	
-	private final PaisRepository repository;
-	
 	public PaisService(PaisRepository repository) {
 		super(repository);
-		this.repository = repository;
 	}
 
 	@Override

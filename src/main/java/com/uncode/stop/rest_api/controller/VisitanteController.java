@@ -1,7 +1,6 @@
 package com.uncode.stop.rest_api.controller;
 
-import com.uncode.stop.rest_api.adapter.VisitanteDTOAdapter;
-import com.uncode.stop.rest_api.dto.VisitanteDTO;
+import com.uncode.stop.rest_api.adapter.IdentityAdapter;
 import com.uncode.stop.rest_api.entity.Visitante;
 import com.uncode.stop.rest_api.service.VisitanteService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +10,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/visitantes")
-public class VisitanteController extends CrudController<Visitante, UUID, VisitanteDTO> {
+public class VisitanteController extends CrudController<Visitante, UUID, Visitante> {
 
-    public VisitanteController(VisitanteService service, VisitanteDTOAdapter adapter) {
+    public VisitanteController(VisitanteService service, IdentityAdapter<Visitante> adapter) {
         super(service, adapter);
     }
 }

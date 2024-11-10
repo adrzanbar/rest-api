@@ -2,6 +2,8 @@ package com.uncode.stop.rest_api.entity;
 
 import com.uncode.stop.rest_api.service.Identifiable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SoftDelete;
@@ -17,15 +19,19 @@ public class Visitante implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
     @Column(nullable = false)
     private String nombre;
 
+    @NotBlank
     @Column(nullable = false)
     private String apellido;
 
+    @NotBlank
     @Column(nullable = false)
     private String numeroDeDocumento;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoVisita tipoVisita;
