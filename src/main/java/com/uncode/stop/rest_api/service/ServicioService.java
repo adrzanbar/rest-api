@@ -10,15 +10,12 @@ import java.util.UUID;
 @Service
 public class ServicioService extends CrudService<Servicio, UUID> {
 
-    private final ServicioRepository repository;
-
     public ServicioService(ServicioRepository repository) {
         super(repository);
-        this.repository = repository;
     }
 
     @Override
-    public void validate(Servicio entity){
+    public void validate(Servicio entity) {
         var nombre = entity.getNombre();
 
         if (nombre == null || nombre.isBlank()) {
@@ -37,6 +34,10 @@ public class ServicioService extends CrudService<Servicio, UUID> {
             throw new ServiceException("fotoUrl required");
         }
 
+    }
+
+    @Override
+    public void resolveRelationships(Servicio entity) {
     }
 
 }

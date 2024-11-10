@@ -10,15 +10,12 @@ import java.util.UUID;
 @Service
 public class MovimientoVisitaService extends CrudService<MovimientoVisita, UUID> {
 
-    private final MovimientoVisitaRepository repository;
-
     public MovimientoVisitaService(MovimientoVisitaRepository repository) {
         super(repository);
-        this.repository = repository;
     }
 
     @Override
-    public void validate(MovimientoVisita entity){
+    public void validate(MovimientoVisita entity) {
         var tipoMovimiento = entity.getTipoMovimiento();
 
         if (tipoMovimiento == null) {
@@ -68,5 +65,8 @@ public class MovimientoVisitaService extends CrudService<MovimientoVisita, UUID>
 
     }
 
+    @Override
+    public void resolveRelationships(MovimientoVisita entity) {
+    }
 
 }
