@@ -33,8 +33,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   @ExceptionHandler(ServiceException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
-  public String handleServiceException(ServiceException e) {
-    return e.getMessage();
+  public ResponseEntity<String> handleServiceException(ServiceException e) {
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
   }
 
   @ExceptionHandler(Exception.class)
