@@ -13,13 +13,10 @@ import com.uncode.stop.rest_api.repository.InmuebleRepository;
 public class InmuebleService extends CrudService<Inmueble, UUID> {
 
     private final InmuebleRepository repository;
-    private final UnidadDeNegocioService unidadDeNegocioService;
 
-    public InmuebleService(InmuebleRepository repository, ModelMapper mapper,
-            UnidadDeNegocioService unidadDeNegocioService) {
+    public InmuebleService(InmuebleRepository repository, ModelMapper mapper) {
         super(repository);
         this.repository = repository;
-        this.unidadDeNegocioService = unidadDeNegocioService;
     }
 
     @Override
@@ -49,14 +46,6 @@ public class InmuebleService extends CrudService<Inmueble, UUID> {
             throw new ServiceException("unidadDeNegocio required");
         }
 
-    }
-
-    @Override
-    public void resolveRelationships(Inmueble entity) {
-        var unidadDeNegocio = entity.getUnidadDeNegocio();
-        if (unidadDeNegocio != null && unidadDeNegocio.getId() != null) {
-            entity.setUnidadDeNegocio(unidadDeNegocioService.readOne(unidadDeNegocio.getId()));
-        }
     }
 
     public Inmueble findByUnidadDeNegocioIdAndNumeracionAndPisoAndDepto(UUID unidadDeNegocioId, String numeracion,

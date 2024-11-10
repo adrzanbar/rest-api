@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class CrudService<E extends Identifiable<ID>, ID> implements Validator<E>, RelationshipResolver<E> {
+public abstract class CrudService<E extends Identifiable<ID>, ID> implements Validator<E> {
 
     protected final JpaRepository<E, ID> repository;
 
@@ -18,7 +18,6 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> implements Val
     public E create(E entity) {
         entity.setId(null);
         validate(entity);
-        resolveRelationships(entity);
         return repository.save(entity);
     }
 
@@ -35,7 +34,6 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> implements Val
     public E update(ID id, E entity) {
         entity.setId(id);
         validate(entity);
-        resolveRelationships(entity);
         if (repository.existsById(entity.getId())) {
             return repository.save(entity);
         } else {
