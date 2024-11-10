@@ -30,5 +30,4 @@ public class ProvinciaDTOAdapter implements DTOAdapter<Provincia, ProvinciaDTO> 
         return entity;
     }
 
-
 }
