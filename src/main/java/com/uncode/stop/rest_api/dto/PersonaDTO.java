@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.uncode.stop.rest_api.entity.Inmueble;
 import com.uncode.stop.rest_api.entity.TipoEmpleado;
 import com.uncode.stop.rest_api.entity.Usuario;
 
@@ -29,6 +30,6 @@ public class PersonaDTO {
     private TipoEmpleado tipoEmpleado;
 
     //Habitante
-    private UUID inmuebleId;
+    private Inmueble inmueble;
 
 }

@@ -20,19 +20,16 @@ public class VisitanteService extends CrudService<Visitante, UUID> {
     @Override
     public void validate(Visitante entity) {
         var nombre = entity.getNombre();
-
         if (nombre == null || nombre.isBlank()) {
             throw new ServiceException("nombre required");
         }
 
         var apellido = entity.getApellido();
-
         if (apellido == null || apellido.isBlank()) {
             throw new ServiceException("apellido required");
         }
 
         var numeroDeDocumento = entity.getNumeroDeDocumento();
-
         if (numeroDeDocumento == null || numeroDeDocumento.isBlank()) {
             throw new ServiceException("numero de documento required");
         }
@@ -42,6 +39,10 @@ public class VisitanteService extends CrudService<Visitante, UUID> {
             throw new ServiceException("numero de documento must be unique");
         }
 
+    }
+
+    @Override
+    public void resolveRelationships(Visitante entity) {
     }
 
 }

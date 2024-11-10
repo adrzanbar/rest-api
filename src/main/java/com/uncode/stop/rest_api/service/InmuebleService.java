@@ -49,13 +49,23 @@ public class InmuebleService extends CrudService<Inmueble, UUID> {
             throw new ServiceException("unidadDeNegocio required");
         }
 
-        unidadDeNegocioService.validate(unidadDeNegocio);
+    }
 
-        var existing = repository.findByUnidadDeNegocioIdAndNumeracionAndPisoAndDepto(unidadDeNegocio.getId(),
-                numeracion, piso, depto);
-        if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-            throw new ServiceException("unidadDeNegocio, numeracion, piso, depto must be unique");
+    @Override
+    public void resolveRelationships(Inmueble entity) {
+        var unidadDeNegocio = entity.getUnidadDeNegocio();
+        if (unidadDeNegocio != null && unidadDeNegocio.getId() != null) {
+            entity.setUnidadDeNegocio(unidadDeNegocioService.readOne(unidadDeNegocio.getId()));
         }
+    }
+
+    public Inmueble findByUnidadDeNegocioIdAndNumeracionAndPisoAndDepto(UUID unidadDeNegocioId, String numeracion,
+            String piso, String depto) {
+        return repository
+                .findByUnidadDeNegocioIdAndNumeracionAndPisoAndDepto(unidadDeNegocioId, numeracion, piso, depto)
+                .orElseThrow(
+                        () -> new ServiceException(
+                                "inmueble not found"));
     }
 
 }

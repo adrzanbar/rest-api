@@ -6,11 +6,14 @@ import org.hibernate.annotations.SoftDelete;
 
 import com.uncode.stop.rest_api.service.Identifiable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +27,11 @@ public class Provincia implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
+    @Column(nullable = false)
     private String nombre;
 
+    @NotNull
     @ManyToOne
     private Pais pais;
 

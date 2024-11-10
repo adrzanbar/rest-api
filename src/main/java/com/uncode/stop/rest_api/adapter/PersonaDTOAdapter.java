@@ -26,11 +26,11 @@ public class PersonaDTOAdapter implements DTOAdapter<Persona, PersonaDTO> {
     @Override
     public Persona toEntity(PersonaDTO dto) {
         Persona persona;
+        var inmueble = dto.getInmueble();
         if (dto.getLegajo() != null) {
             persona = mapper.map(dto, Empleado.class);
-        } else if (dto.getInmuebleId() != null) {
+        } else if (inmueble != null && inmueble.getId() != null) {
             persona = mapper.map(dto, Habitante.class);
-            ((Habitante) persona).setInmueble(inmuebleService.readOne(dto.getInmuebleId()));
         } else {
             persona = mapper.map(dto, Persona.class);
         }

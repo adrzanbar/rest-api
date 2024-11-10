@@ -2,6 +2,7 @@ package com.uncode.stop.rest_api.entity;
 
 import com.uncode.stop.rest_api.service.Identifiable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SoftDelete;
@@ -19,25 +20,27 @@ public class MovimientoVisita implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoMovimiento tipoMovimiento;
 
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime fechaMovimiento;
 
-    @Column(nullable = false)
     private String observacion;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoMovimiento estadoMovimiento;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoMovilidad tipoMovilidad;
 
-    @Column(nullable = false)
     private String descripcionMovilidad;
 
 }

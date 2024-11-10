@@ -12,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,19 +29,24 @@ public class Inmueble implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
     @Column(nullable = false)
     private String numeracion;
 
+    @NotBlank
     @Column(nullable = false)
     private String piso;
 
+    @NotBlank
     @Column(nullable = false)
     private String depto;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoInmueble estadoInmueble;
 
+    @NotNull
     @ManyToOne(optional = false)
     private UnidadDeNegocio unidadDeNegocio;
 

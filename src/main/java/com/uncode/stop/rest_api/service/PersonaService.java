@@ -90,7 +90,14 @@ public class PersonaService extends CrudService<Persona, UUID> {
             if (inmueble == null || inmueble.getId() == null) {
                 throw new ServiceException("inmueble required");
             }
-            inmuebleService.validate(inmueble);
+        }
+    }
+
+    @Override
+    public void resolveRelationships(Persona entity) {
+        if (entity instanceof Habitante) {
+            var habitante = (Habitante) entity;
+            habitante.setInmueble(inmuebleService.readOne(habitante.getInmueble().getId()));
         }
     }
 
