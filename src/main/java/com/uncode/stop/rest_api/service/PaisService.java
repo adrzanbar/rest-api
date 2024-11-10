@@ -9,20 +9,28 @@ import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.PaisRepository;
 
 @Service
-public class PaisService extends CrudService<Pais, UUID>{
-	
+public class PaisService extends CrudService<Pais, UUID> {
+
+	private final PaisRepository repository;
+
 	public PaisService(PaisRepository repository) {
 		super(repository);
+		this.repository = repository;
 	}
 
 	@Override
 	public void validate(Pais entity) {
-		
-        var nombre = entity.getNombre();
-        if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
-        }
-        
+
+		var nombre = entity.getNombre();
+		if (nombre == null || nombre.isBlank()) {
+			throw new ServiceException("nombre required");
+		}
+
+		var existing = repository.findByNombre(nombre);
+		if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
+			throw new ServiceException("nombre already exists");
+		}
+
 	}
-	
+
 }

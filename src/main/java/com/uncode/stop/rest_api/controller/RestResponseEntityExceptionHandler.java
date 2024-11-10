@@ -33,14 +33,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   @ExceptionHandler(ServiceException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
-  public ResponseEntity<String> handleServiceException(ServiceException e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+  public Map<String, Object> handleServiceException(ServiceException e) {
+    Map<String, Object> response = new HashMap<>();
+    response.put("error", "Conflict");
+    response.put("message", e.getMessage());
+    return response;
   }
 
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public String handleException(Exception e) {
-    return "Internal Server Error";
+  public Map<String, Object> handleException(Exception e) {
+    Map<String, Object> response = new HashMap<>();
+    response.put("error", "Internal Server Error");
+    response.put("message", e.getMessage());
+    return response;
   }
 
   @Override

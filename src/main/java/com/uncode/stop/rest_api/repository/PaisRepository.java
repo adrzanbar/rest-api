@@ -13,4 +13,6 @@ public interface PaisRepository extends JpaRepository<Pais, UUID> {
 	
 	@Query("SELECT p FROM Pais p WHERE p.nombre = :nombre")
 	Optional<Pais> findByName(@Param("nombre") String nombre);
+
+    Optional<Pais> findByNombre(String nombre);
 }
