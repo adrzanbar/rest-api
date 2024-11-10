@@ -26,11 +26,7 @@ public class PaisService extends CrudService<Pais, UUID>{
         if (nombre == null || nombre.isBlank()) {
             throw new ServiceException("nombre required");
         }
-	
-        Optional<Pais> response = repository.findByName(entity.getNombre());
-        if (response.isPresent()) {
-        	throw new ServiceException("El pais con ese nombre ya existe.");
-		}
+        
 	}
 	
 }
