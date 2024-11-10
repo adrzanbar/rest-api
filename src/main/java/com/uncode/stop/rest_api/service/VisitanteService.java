@@ -38,13 +38,6 @@ public class VisitanteService extends CrudService<Visitante, UUID> {
             throw new ServiceException("numero de documento required");
         }
 
-        var tipoVisita = entity.getTipoVisita();
-
-        if (tipoVisita == null) {
-            throw new ServiceException("tipo de visita required");
-        }
-
-
     }
 
 }

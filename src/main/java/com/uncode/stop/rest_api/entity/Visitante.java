@@ -31,9 +31,4 @@ public class Visitante implements Identifiable<UUID> {
     @Column(nullable = false)
     private String numeroDeDocumento;
 
-    @NotNull
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoVisita tipoVisita;
-
 }
