@@ -1,9 +1,11 @@
 package com.uncode.stop.rest_api.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.uncode.stop.rest_api.entity.Pais;
 import com.uncode.stop.rest_api.entity.Provincia;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.ProvinciaRepository;
@@ -35,5 +37,9 @@ public class ProvinciaService extends CrudService<Provincia, UUID> {
 			throw new ServiceException("pais is required");
 		}
     }
+    
+    public List<Provincia> listarProvinciasPorPais(UUID id) {
+    	return repository.findByPaisId(id);
+	}
 
 }
