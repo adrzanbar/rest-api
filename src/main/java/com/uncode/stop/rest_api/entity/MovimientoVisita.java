@@ -50,4 +50,7 @@ public class MovimientoVisita implements Identifiable<UUID> {
     @ManyToOne(optional = false)
     private Visitante visitante;
 
+    @ManyToOne(optional = false)
+    private Inmueble inmueble;
+
 }

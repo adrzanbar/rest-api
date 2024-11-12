@@ -63,6 +63,12 @@ public class MovimientoVisitaService extends CrudService<MovimientoVisita, UUID>
             throw new ServiceException("tipo visita required");
         }
 
+        var inmueble = entity.getInmueble();
+
+        if (inmueble == null) {
+            throw new ServiceException("inmueble required");
+        }
+
     }
 
     @Override

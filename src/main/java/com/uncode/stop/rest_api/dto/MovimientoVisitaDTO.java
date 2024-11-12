@@ -27,4 +27,6 @@ public class MovimientoVisitaDTO {
     private TipoVisita tipoVisita;
     @NotNull
     private UUID visitanteId;
+    @NotNull
+    private UUID inmuebleId;
 }

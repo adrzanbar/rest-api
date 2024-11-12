@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @SoftDelete(columnName = "eliminado")
-public class Servicio implements Identifiable<UUID> {
+public class Imagen implements Identifiable<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,6 +24,10 @@ public class Servicio implements Identifiable<UUID> {
     @Column(nullable = false)
     private String nombre;
 
-    @OneToOne
-    private Imagen imagen;
+    @NotBlank
+    @Column(nullable = false)
+    private String mime;
+
+    @Lob
+    private byte[] contenido;
 }

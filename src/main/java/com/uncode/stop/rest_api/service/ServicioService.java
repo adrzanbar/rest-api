@@ -10,8 +10,11 @@ import java.util.UUID;
 @Service
 public class ServicioService extends CrudService<Servicio, UUID> {
 
-    public ServicioService(ServicioRepository repository) {
+    private final ImagenService imagenService;
+
+    public ServicioService(ServicioRepository repository, ImagenService imagenService) {
         super(repository);
+        this.imagenService = imagenService;
     }
 
     @Override
@@ -22,16 +25,10 @@ public class ServicioService extends CrudService<Servicio, UUID> {
             throw new ServiceException("nombre required");
         }
 
-        var descripcion = entity.getDescripcion();
+        var imagen = entity.getImagen();
 
-        if (descripcion == null || descripcion.isBlank()) {
-            throw new ServiceException("descripcion required");
-        }
-
-        var fotoUrl = entity.getFotoUrl();
-
-        if (fotoUrl == null || fotoUrl.isBlank()) {
-            throw new ServiceException("fotoUrl required");
+        if (imagen == null) {
+            throw new ServiceException("imagen required");
         }
 
     }
