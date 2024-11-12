@@ -17,6 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,12 +32,15 @@ public class Persona implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
     @Column(nullable = false)
     private String nombre;
 
+    @NotBlank
     @Column(nullable = false)
     private String apellido;
 
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     private Usuario usuario;
 

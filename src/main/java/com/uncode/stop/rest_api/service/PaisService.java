@@ -33,8 +33,4 @@ public class PaisService extends CrudService<Pais, UUID> {
 
 	}
 
-	@Override
-	public void resolveRelationships(Pais entity) {
-	}
-
 }

@@ -23,8 +23,4 @@ public class UnidadDeNegocioService extends CrudService<UnidadDeNegocio, UUID> {
         }
     }
 
-    @Override
-    public void resolveRelationships(UnidadDeNegocio entity) {
-    }
-
 }

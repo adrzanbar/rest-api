@@ -43,10 +43,12 @@ public class MovimientoVisita implements Identifiable<UUID> {
 
     private String descripcionMovilidad;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoVisita tipoVisita;
 
+    @NotNull
     @ManyToOne(optional = false)
     private Visitante visitante;
 

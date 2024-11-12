@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.uncode.stop.rest_api.entity.Empleado;
 import com.uncode.stop.rest_api.entity.PlanillaHoraria;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.PlanillaHorariaRepository;
@@ -12,11 +11,8 @@ import com.uncode.stop.rest_api.repository.PlanillaHorariaRepository;
 @Service
 public class PlanillaHorariaService extends CrudService<PlanillaHoraria, UUID> {
 
-    private final PersonaService personaService;
-
-    public PlanillaHorariaService(PlanillaHorariaRepository repository, PersonaService personaService) {
+    public PlanillaHorariaService(PlanillaHorariaRepository repository) {
         super(repository);
-        this.personaService = personaService;
     }
 
     @Override
@@ -38,16 +34,6 @@ public class PlanillaHorariaService extends CrudService<PlanillaHoraria, UUID> {
         }
         var empleado = entity.getEmpleado();
         if (empleado == null || empleado.getId() == null) {
-            throw new ServiceException("empleado required");
-        }
-    }
-
-    @Override
-    public void resolveRelationships(PlanillaHoraria entity) {
-        var persona = personaService.readOne(entity.getEmpleado().getId());
-        if (persona instanceof Empleado) {
-            entity.setEmpleado((Empleado) persona);
-        } else {
             throw new ServiceException("empleado required");
         }
     }

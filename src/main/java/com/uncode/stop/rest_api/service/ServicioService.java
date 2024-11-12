@@ -33,8 +33,4 @@ public class ServicioService extends CrudService<Servicio, UUID> {
 
     }
 
-    @Override
-    public void resolveRelationships(Servicio entity) {
-    }
-
 }

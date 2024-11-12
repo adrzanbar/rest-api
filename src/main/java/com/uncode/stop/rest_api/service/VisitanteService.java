@@ -41,8 +41,4 @@ public class VisitanteService extends CrudService<Visitante, UUID> {
 
     }
 
-    @Override
-    public void resolveRelationships(Visitante entity) {
-    }
-
 }

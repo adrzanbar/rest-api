@@ -41,9 +41,6 @@ public class ImagenService extends CrudService<Imagen, UUID> {
         }
     }
 
-    @Override
-    public void resolveRelationships(Imagen entity) {
-    }
 
     public Imagen guardarImagen(MultipartFile file) throws IOException {
         Imagen imagen = new Imagen();
