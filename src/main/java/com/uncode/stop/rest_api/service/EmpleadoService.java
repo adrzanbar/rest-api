@@ -2,22 +2,27 @@ package com.uncode.stop.rest_api.service;
 
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.uncode.stop.rest_api.dto.EmpleadoDTO;
 import com.uncode.stop.rest_api.entity.Empleado;
+import com.uncode.stop.rest_api.error.NotFoundException;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.EmpleadoRepository;
 
 @Service
-public class EmpleadoService extends CrudService<Empleado, UUID> {
+public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
 
-    private final EmpleadoRepository empleadoRepository;
+    private final EmpleadoRepository repository;
     private final PersonaService personaService;
+    private final ModelMapper modelMapper;
 
-    public EmpleadoService(EmpleadoRepository empleadoRepository, PersonaService personaService) {
-        super(empleadoRepository);
-        this.empleadoRepository = empleadoRepository;
+    public EmpleadoService(EmpleadoRepository repository, PersonaService personaService, ModelMapper modelMapper) {
+        super(repository);
+        this.repository = repository;
         this.personaService = personaService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class EmpleadoService extends CrudService<Empleado, UUID> {
             throw new ServiceException("legajo required");
         }
 
-        var existing = empleadoRepository.findByLegajo(legajo);
+        var existing = repository.findByLegajo(legajo);
         if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
             throw new ServiceException("legajo must be unique");
         }
@@ -38,6 +43,18 @@ public class EmpleadoService extends CrudService<Empleado, UUID> {
         if (tipoEmpleado == null) {
             throw new ServiceException("tipoEmpleado required");
         }
+    }
+
+    @Override
+    protected Empleado toEntity(EmpleadoDTO dto) {
+        return modelMapper.map(dto, Empleado.class);
+    }
+
+    @Override
+    protected Empleado toEntity(UUID id, EmpleadoDTO dto) {
+        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        modelMapper.map(dto, entity);
+        return entity;
     }
 
 }
