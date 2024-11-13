@@ -10,7 +10,7 @@ import com.uncode.stop.rest_api.repository.UnidadDeNegocioRepository;
 
 @Service
 public class UnidadDeNegocioService extends CrudService<UnidadDeNegocio, UUID> {
-
+	
     public UnidadDeNegocioService(UnidadDeNegocioRepository repository) {
         super(repository);
     }
@@ -21,6 +21,12 @@ public class UnidadDeNegocioService extends CrudService<UnidadDeNegocio, UUID> {
         if (nombre == null || nombre.isBlank()) {
             throw new ServiceException("nombre required");
         }
+        
+        var direccion = entity.getDireccion();
+        if (direccion == null) {
+        	throw new ServiceException("direccion required");
+		}
+        
     }
 
 }

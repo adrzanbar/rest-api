@@ -18,12 +18,16 @@ import lombok.Setter;
 @SoftDelete(columnName = "eliminado")
 @Getter
 @Setter
-public class Localidad implements Identifiable<UUID> {
+public class Direccion implements Identifiable<UUID>{
+	
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String nombre;
-    private String codigoPostal;
+    
+    private String calle;
+    private String numeracion;
+    private String latitud;
+    private String longitud;
     @ManyToOne
-    private Departamento departamento;
+    private Localidad localidad;
 }

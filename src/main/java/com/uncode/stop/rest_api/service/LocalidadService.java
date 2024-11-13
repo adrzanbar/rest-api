@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,11 @@ public class LocalidadService extends CrudService<Localidad, UUID>{
             throw new ServiceException("nombre is required");
         }
         
+        var codigoPostal = entity.getCodigoPostal();
+        if (codigoPostal == null || codigoPostal.isBlank()) {
+        	throw new ServiceException("codigo postal is required");
+		}
+        
 		var existing = repository.findByNombre(nombre);
 		if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
 			throw new ServiceException("nombre already exists");
@@ -37,6 +43,10 @@ public class LocalidadService extends CrudService<Localidad, UUID>{
         if (departamento == null) {
         	throw new ServiceException("departamento is required");
 		}
+	}
+	
+	public List<Localidad> listarLocalidadesPorDepartamento(UUID id) {
+		return repository.findByDepartamentoId(id);
 	}
 	
 }

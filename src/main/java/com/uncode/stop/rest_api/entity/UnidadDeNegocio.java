@@ -1,32 +1,40 @@
 package com.uncode.stop.rest_api.entity;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.SoftDelete;
 
+import com.uncode.stop.rest_api.entity.Departamento;
+import com.uncode.stop.rest_api.entity.Direccion;
+import com.uncode.stop.rest_api.entity.Servicio;
 import com.uncode.stop.rest_api.service.Identifiable;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @SoftDelete(columnName = "eliminado")
-public class UnidadDeNegocio implements Identifiable<UUID> {
-
+@Getter
+@Setter
+public class UnidadDeNegocio implements Identifiable<UUID>{
+	
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @NotBlank
-    @Column(nullable = false)
+    
     private String nombre;
-
+    
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Direccion direccion;
+    
+    @OneToMany
+    private List<Servicio> servicio;
 }
