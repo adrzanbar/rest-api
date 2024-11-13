@@ -11,8 +11,11 @@ import com.uncode.stop.rest_api.repository.UnidadDeNegocioRepository;
 @Service
 public class UnidadDeNegocioService extends CrudService<UnidadDeNegocio, UUID> {
 	
+	private final UnidadDeNegocioRepository repository;
+	
     public UnidadDeNegocioService(UnidadDeNegocioRepository repository) {
         super(repository);
+        this.repository = repository;
     }
 
     @Override

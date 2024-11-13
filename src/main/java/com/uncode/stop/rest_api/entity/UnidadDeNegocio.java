@@ -5,13 +5,12 @@ import java.util.UUID;
 
 import org.hibernate.annotations.SoftDelete;
 
-import com.uncode.stop.rest_api.entity.Departamento;
-import com.uncode.stop.rest_api.entity.Direccion;
-import com.uncode.stop.rest_api.entity.Servicio;
+
 import com.uncode.stop.rest_api.service.Identifiable;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,6 +34,7 @@ public class UnidadDeNegocio implements Identifiable<UUID>{
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Direccion direccion;
     
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Servicio> servicio;
+
 }
