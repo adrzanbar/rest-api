@@ -59,7 +59,9 @@ public class UsuarioService extends CRUDService2<Usuario, UUID, UsuarioDTO> {
         if (!dto.getClave().equals(dto.getConfirmarClave())) {
             throw new ServiceException("confirmarClave must match clave");
         }
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(dto, entity);
+        modelMapper.getConfiguration().setSkipNullEnabled(false);
         return entity;
     }
 

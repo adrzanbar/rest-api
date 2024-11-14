@@ -1,12 +1,15 @@
 package com.uncode.stop.rest_api.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.uncode.stop.rest_api.dto.ContactoDTO;
 import com.uncode.stop.rest_api.dto.EmpleadoDTO;
 import com.uncode.stop.rest_api.dto.UsuarioDTO;
+import com.uncode.stop.rest_api.entity.Contacto;
 import com.uncode.stop.rest_api.entity.Empleado;
 import com.uncode.stop.rest_api.entity.Usuario;
 import com.uncode.stop.rest_api.error.NotFoundException;
@@ -85,6 +88,19 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
         var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
         var usuario = empleado.getUsuario();
         usuarioService.delete(usuario.getId());
+    }
+
+    public List<Contacto> getContactos(UUID id) {
+        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        return empleado.getContactos();
+    }
+
+    public Contacto createContacto(UUID id, ContactoDTO dto) {
+        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        var contacto = modelMapper.map(dto, Contacto.class);
+        empleado.getContactos().add(contacto);
+        repository.save(empleado);
+        return contacto;
     }
 
 }

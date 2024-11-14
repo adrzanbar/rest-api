@@ -1,6 +1,5 @@
 package com.uncode.stop.rest_api.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;

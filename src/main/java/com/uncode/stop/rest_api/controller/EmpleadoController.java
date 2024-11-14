@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uncode.stop.rest_api.dto.EmpleadoDTO;
 import com.uncode.stop.rest_api.dto.UsuarioDTO;
+import com.uncode.stop.rest_api.entity.Contacto;
 import com.uncode.stop.rest_api.entity.Empleado;
 import com.uncode.stop.rest_api.entity.Usuario;
 import com.uncode.stop.rest_api.service.EmpleadoService;
@@ -49,4 +51,24 @@ public class EmpleadoController extends EntityController<Empleado, UUID, Emplead
     public void deleteUsuario(@PathVariable UUID id) {
         service.deleteUsuario(id);
     }
+
+    @GetMapping("/{id}/contactos")
+    public List<Contacto> getContactos(@PathVariable UUID id) {
+        return service.getContactos(id);
+    }
+
+    // @PostMapping("/{id}/contactos")
+    // public Contacto createContacto(@PathVariable UUID id, @Valid @RequestBody ContactoDTO dto) {
+    //     return service.createContacto(id, contacto);
+    // }
+
+    // @PutMapping("/{id}/contactos/{contactoId}")
+    // public Contacto updateContacto(@PathVariable UUID id, @PathVariable UUID contactoId, @Valid @RequestBody ContactoDTO dto) {
+    //     return service.updateContacto(id, contactoId, contacto);
+    // }
+
+    // @DeleteMapping("/{id}/contactos/{contactoId}")
+    // public void deleteContacto(@PathVariable UUID id, @PathVariable UUID contactoId) {
+    //     service.deleteContacto(id, contactoId);
+    // }
 }
