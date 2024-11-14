@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.uncode.stop.rest_api.dto.EmpleadoDTO;
 import com.uncode.stop.rest_api.entity.Empleado;
+import com.uncode.stop.rest_api.entity.UnidadDeNegocio;
 import com.uncode.stop.rest_api.error.NotFoundException;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.EmpleadoRepository;
@@ -48,10 +49,8 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
     @Override
     protected Empleado toEntity(EmpleadoDTO dto) {
         var entity = modelMapper.map(dto, Empleado.class);
-        var unidadDeNegocio = entity.getUnidadDeNegocio();
-        if (unidadDeNegocio != null) {
-            unidadDeNegocio.setId(dto.getUnidadDeNegocio().getId());
-        }
+        entity.setUnidadDeNegocio(new UnidadDeNegocio());
+        entity.getUnidadDeNegocio().setId(dto.getUnidadDeNegocio().getId());
         return entity;
     }
 
