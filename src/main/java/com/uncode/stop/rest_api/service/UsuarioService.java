@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -65,8 +66,9 @@ public class UsuarioService extends CRUDService2<Usuario, UUID, UsuarioDTO> {
         return entity;
     }
 
-    public Usuario findByCuenta(String cuenta) {
-        return repository.findByCuenta(cuenta).orElseThrow(() -> new ServiceException("Usuario not found"));
+    public Optional<Usuario> findByCuenta(String cuenta) {
+        return repository.findByCuenta(cuenta);
+        //return repository.findByCuenta(cuenta).orElseThrow(() -> new ServiceException("Usuario not found"));
     }
 
 

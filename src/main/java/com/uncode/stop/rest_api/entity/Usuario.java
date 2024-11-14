@@ -2,6 +2,8 @@ package com.uncode.stop.rest_api.entity;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.SoftDelete;
 
 import com.uncode.stop.rest_api.service.Identifiable;
@@ -15,12 +17,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 @SoftDelete(columnName = "eliminado")
 public class Usuario implements Identifiable<UUID> {
 
@@ -34,6 +37,7 @@ public class Usuario implements Identifiable<UUID> {
 
     @NotBlank
     @Column(nullable = false)
+    @JsonIgnore
     private String clave;
 
     @NotNull

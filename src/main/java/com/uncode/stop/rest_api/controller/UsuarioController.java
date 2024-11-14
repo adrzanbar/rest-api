@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class UsuarioController {
     private final UsuarioService service;
 
     @GetMapping("/{cuenta}")
-    public Usuario getUsuario(@PathVariable String cuenta) {
+    public Optional<Usuario> getUsuario(@PathVariable String cuenta) {
         return service.findByCuenta(cuenta);
     }
 
