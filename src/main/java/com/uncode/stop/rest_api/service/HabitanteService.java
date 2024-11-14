@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.uncode.stop.rest_api.dto.HabitanteDTO;
 import com.uncode.stop.rest_api.entity.Habitante;
 import com.uncode.stop.rest_api.entity.Inmueble;
-import com.uncode.stop.rest_api.entity.UnidadDeNegocio;
 import com.uncode.stop.rest_api.error.NotFoundException;
 import com.uncode.stop.rest_api.repository.HabitanteRepository;
 
