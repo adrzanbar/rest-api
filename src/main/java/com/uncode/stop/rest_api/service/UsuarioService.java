@@ -1,21 +1,29 @@
 package com.uncode.stop.rest_api.service;
 
+import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.uncode.stop.rest_api.dto.UsuarioDTO;
 import com.uncode.stop.rest_api.entity.Usuario;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.UsuarioRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
-public class UsuarioService implements Validator<Usuario> {
+public class UsuarioService extends CRUDService2<Usuario, UUID, UsuarioDTO> {
 
     private final UsuarioRepository repository;
+    private final ModelMapper modelMapper;
+
+    public UsuarioService(UsuarioRepository repository, ModelMapper modelMapper) {
+        super(repository);
+        this.repository = repository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
-    public void validate(Usuario entity) {
+    protected void validate(Usuario entity) {
         var cuenta = entity.getCuenta();
         if (cuenta == null || cuenta.isBlank()) {
             throw new ServiceException("cuenta required");
@@ -35,7 +43,27 @@ public class UsuarioService implements Validator<Usuario> {
         if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
             throw new ServiceException("cuenta must be unique");
         }
-
     }
+
+    @Override
+    protected Usuario toEntity(UsuarioDTO dto) {
+        if (!dto.getClave().equals(dto.getConfirmarClave())) {
+            throw new ServiceException("confirmarClave must match clave");
+        }
+        return modelMapper.map(dto, Usuario.class);
+    }
+
+    @Override
+    protected Usuario toEntity(UUID id, UsuarioDTO dto) {
+        var entity = repository.findById(id).orElseThrow(() -> new ServiceException("Usuario not found"));
+        if (!dto.getClave().equals(dto.getConfirmarClave())) {
+            throw new ServiceException("confirmarClave must match clave");
+        }
+        modelMapper.map(dto, entity);
+        return entity;
+    }
+
+        
+
 
 }

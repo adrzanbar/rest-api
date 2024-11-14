@@ -38,7 +38,7 @@ public class Persona implements Identifiable<UUID> {
     @Column(nullable = false)
     private String apellido;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Usuario usuario;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
