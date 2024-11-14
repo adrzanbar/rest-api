@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -55,6 +56,10 @@ public class InmuebleService extends CrudService<Inmueble, UUID> {
                 .orElseThrow(
                         () -> new ServiceException(
                                 "inmueble not found"));
+    }
+    
+    public List<Inmueble> listarInmueblesPorBarrio(UUID id){
+    	return repository.findByUnidadDeNegocioId(id);
     }
 
 }
