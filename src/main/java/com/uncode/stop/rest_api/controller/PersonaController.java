@@ -22,7 +22,7 @@ import com.uncode.stop.rest_api.service.PersonaService;
 import jakarta.validation.Valid;
 
 @RestController
-public class PersonaController<E extends Persona, DTO> extends EntityController<E, UUID, DTO> {
+public abstract class PersonaController<E extends Persona, DTO> extends EntityController<E, UUID, DTO> {
 
     private final PersonaService personaService;
 
