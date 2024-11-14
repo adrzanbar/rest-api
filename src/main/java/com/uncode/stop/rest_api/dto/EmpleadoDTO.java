@@ -22,6 +22,6 @@ public class EmpleadoDTO implements Serializable {
     private String legajo;
     @NotNull
     private TipoEmpleado tipoEmpleado;
-    private IdentifierDTO<UUID> unidadDeNegocio;
+    private IdentifierDTO<UUID> unidadDeNegocio = new IdentifierDTO<>();
 
 }

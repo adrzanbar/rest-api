@@ -49,8 +49,11 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
     @Override
     protected Empleado toEntity(EmpleadoDTO dto) {
         var entity = modelMapper.map(dto, Empleado.class);
-        entity.setUnidadDeNegocio(new UnidadDeNegocio());
-        entity.getUnidadDeNegocio().setId(dto.getUnidadDeNegocio().getId());
+        var unidadDeNegocio = dto.getUnidadDeNegocio();
+        if (unidadDeNegocio != null) {
+            entity.setUnidadDeNegocio(new UnidadDeNegocio());
+            entity.getUnidadDeNegocio().setId(unidadDeNegocio.getId());
+        }
         return entity;
     }
 
@@ -58,9 +61,14 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
     protected Empleado toEntity(UUID id, EmpleadoDTO dto) {
         var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
         modelMapper.map(dto, entity);
-        var unidadDeNegocio = entity.getUnidadDeNegocio();
-        if (unidadDeNegocio != null) {
-            unidadDeNegocio.setId(dto.getUnidadDeNegocio().getId());
+        var unidadDeNegocio = dto.getUnidadDeNegocio();
+        if (unidadDeNegocio == null) {
+            entity.setUnidadDeNegocio(null);
+        } else {
+            if (entity.getUnidadDeNegocio() == null) {
+                entity.setUnidadDeNegocio(new UnidadDeNegocio());
+            }
+            entity.getUnidadDeNegocio().setId(unidadDeNegocio.getId());
         }
         return entity;
     }

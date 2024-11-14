@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.uncode.stop.rest_api.dto.HabitanteDTO;
 import com.uncode.stop.rest_api.entity.Habitante;
+import com.uncode.stop.rest_api.entity.Inmueble;
+import com.uncode.stop.rest_api.entity.UnidadDeNegocio;
 import com.uncode.stop.rest_api.error.NotFoundException;
 import com.uncode.stop.rest_api.repository.HabitanteRepository;
 
@@ -33,9 +35,10 @@ public class HabitanteService extends CRUDService2<Habitante, UUID, HabitanteDTO
     @Override
     protected Habitante toEntity(HabitanteDTO dto) {
         var entity = modelMapper.map(dto, Habitante.class);
-        var inmueble = entity.getInmueble();
+        var inmueble = dto.getInmueble();
         if (inmueble != null) {
-            inmueble.setId(dto.getInmueble().getId());
+            entity.setInmueble(new Inmueble());
+            entity.getInmueble().setId(inmueble.getId());
         }
         return entity;
     }
@@ -44,9 +47,14 @@ public class HabitanteService extends CRUDService2<Habitante, UUID, HabitanteDTO
     protected Habitante toEntity(UUID id, HabitanteDTO dto) {
         var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Habitante not found"));
         modelMapper.map(dto, entity);
-        var inmueble = entity.getInmueble();
-        if (inmueble != null) {
-            inmueble.setId(dto.getInmueble().getId());
+        var inmueble = dto.getInmueble();
+        if (inmueble == null) {
+            entity.setInmueble(null);
+        } else {
+            if (entity.getInmueble() == null) {
+                entity.setInmueble(new Inmueble());
+            }
+            entity.getInmueble().setId(inmueble.getId());
         }
         return entity;
     }
