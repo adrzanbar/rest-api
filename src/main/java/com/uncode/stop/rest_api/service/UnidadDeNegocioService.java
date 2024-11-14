@@ -25,10 +25,10 @@ public class UnidadDeNegocioService extends CrudService<UnidadDeNegocio, UUID> {
             throw new ServiceException("nombre required");
         }
         
-        var direccion = entity.getDireccion();
-        if (direccion == null) {
-        	throw new ServiceException("direccion required");
-		}
+        // var direccion = entity.getDireccion();
+        // if (direccion == null) {
+        // 	throw new ServiceException("direccion required");
+		// }
         
     }
 

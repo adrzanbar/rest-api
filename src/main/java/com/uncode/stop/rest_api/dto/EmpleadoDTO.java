@@ -1,5 +1,6 @@
 package com.uncode.stop.rest_api.dto;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import com.uncode.stop.rest_api.entity.TipoEmpleado;
@@ -11,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmpleadoDTO {
+public class EmpleadoDTO implements Serializable {
 
     @NotBlank
     private String nombre;
