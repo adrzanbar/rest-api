@@ -19,9 +19,9 @@ public class UsuarioController {
 
     private final UsuarioService service;
 
-    @GetMapping("/{id}")
-    public Usuario getUsuario(@PathVariable UUID id) {
-        return service.read(id);
+    @GetMapping("/{cuenta}")
+    public Usuario getUsuario(@PathVariable String cuenta) {
+        return service.findByCuenta(cuenta);
     }
 
 }
