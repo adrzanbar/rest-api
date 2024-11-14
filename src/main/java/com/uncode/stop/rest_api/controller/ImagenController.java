@@ -33,7 +33,7 @@ public class ImagenController extends CrudController<Imagen, UUID, Imagen> {
 
     @GetMapping("/obtener/{id}")
     public ResponseEntity<byte[]> obtenerImagen(@PathVariable("id") String id) {
-        String url = "http://localhost:8080/imagen/" + id;
+        String url = "http://localhost:9000/imagen/" + id;
 
         // Obtener la imagen como respuesta JSON
         Imagen imagen = restTemplate.getForObject(url, Imagen.class);
