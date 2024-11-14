@@ -16,5 +16,6 @@ public class EmpleadoController extends EntityController<Empleado, UUID, Emplead
     public EmpleadoController(EmpleadoService service) {
         super(service);
     }
+    
 
 }

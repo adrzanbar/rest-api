@@ -10,7 +10,6 @@ import lombok.Setter;
 @Entity
 public class ContactoCorreoElectronico extends Contacto {
 
-    @Column(nullable = false)
     private String email;
 
 }

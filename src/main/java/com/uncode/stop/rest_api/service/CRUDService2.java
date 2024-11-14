@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.uncode.stop.rest_api.error.NotFoundException;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public abstract class CRUDService2<E extends Identifiable<ID>, ID, DTO> {
 
     protected abstract E toEntity(ID id, DTO dto);
 
+    @Transactional
     public E create(DTO dto) {
         var entity = toEntity(dto);
         entity.setId(null);
@@ -35,12 +37,14 @@ public abstract class CRUDService2<E extends Identifiable<ID>, ID, DTO> {
                 () -> new NotFoundException("entity not found"));
     }
 
+    @Transactional
     public E update(ID id, DTO dto) {
         var entity = toEntity(id, dto);
         validate(entity);
         return repository.save(entity);
     }
 
+    @Transactional
     public void delete(ID id) {
         if (!repository.existsById(id)) {
             throw new NotFoundException("entity not found");

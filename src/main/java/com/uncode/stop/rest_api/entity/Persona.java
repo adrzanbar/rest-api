@@ -32,19 +32,16 @@ public class Persona implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
     @Column(nullable = false)
     private String nombre;
 
-    @NotBlank
     @Column(nullable = false)
     private String apellido;
 
-    @NotNull
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne
     private Usuario usuario;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Contacto> contactos = new ArrayList<>();
 
 }
