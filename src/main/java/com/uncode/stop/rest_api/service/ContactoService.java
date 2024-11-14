@@ -2,21 +2,30 @@ package com.uncode.stop.rest_api.service;
 
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.uncode.stop.rest_api.dto.ContactoDTO;
 import com.uncode.stop.rest_api.entity.Contacto;
+import com.uncode.stop.rest_api.entity.ContactoCorreoElectronico;
+import com.uncode.stop.rest_api.entity.ContactoTelefonico;
+import com.uncode.stop.rest_api.error.ServiceException;
+import com.uncode.stop.rest_api.repository.ContactoCorreoElectronicoRepository;
 import com.uncode.stop.rest_api.repository.ContactoRepository;
-
 
 @Service
 public class ContactoService extends CRUDService2<Contacto, UUID, ContactoDTO> {
 
     private final ContactoRepository repository;
+    private final ModelMapper modelMapper;
+    private final ContactoCorreoElectronicoRepository contactoCorreoElectronicoRepository;
 
-    public ContactoService(ContactoRepository repository) {
+    public ContactoService(ContactoRepository repository, ModelMapper modelMapper,
+            ContactoCorreoElectronicoRepository contactoCorreoElectronicoRepository) {
         super(repository);
         this.repository = repository;
+        this.modelMapper = modelMapper;
+        this.contactoCorreoElectronicoRepository = contactoCorreoElectronicoRepository;
     }
 
     // https://emailregex.com/
@@ -24,51 +33,54 @@ public class ContactoService extends CRUDService2<Contacto, UUID, ContactoDTO> {
 
     @Override
     protected void validate(Contacto entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validate'");
+        if (entity.getTipoContacto() == null) {
+            throw new ServiceException("tipoContacto required");
+        }
+
+        if (entity instanceof ContactoTelefonico) {
+            var telefono = ((ContactoTelefonico) entity).getTelefono();
+            if (telefono == null || telefono.isBlank()) {
+                throw new ServiceException("telefono required");
+            }
+
+            var tipoTelefono = ((ContactoTelefonico) entity).getTipoTelefono();
+            if (tipoTelefono == null) {
+                throw new ServiceException("tipoTelefono required");
+            }
+        } else if (entity instanceof ContactoCorreoElectronico) {
+            var email = ((ContactoCorreoElectronico) entity).getEmail();
+            if (email == null || email.isBlank()) {
+                throw new ServiceException("email required");
+            }
+
+            if (!email.matches(EMAIL_REGEX)) {
+                throw new ServiceException("email invalid");
+            }
+
+            var existing = contactoCorreoElectronicoRepository.findByEmail(email);
+            if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
+                throw new ServiceException("email must be unique");
+            }
+
+        }
     }
 
     @Override
     protected Contacto toEntity(ContactoDTO dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toEntity'");
+        if (dto.getEmail() != null) {
+            return modelMapper.map(dto, ContactoCorreoElectronico.class);
+        } else if (dto.getTelefono() != null) {
+            return modelMapper.map(dto, ContactoTelefonico.class);
+        } else {
+            throw new ServiceException("email or telefono required");
+        }
     }
 
     @Override
     protected Contacto toEntity(UUID id, ContactoDTO dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toEntity'");
+        var entity = repository.findById(id).orElseThrow(() -> new ServiceException("Contacto not found"));
+        modelMapper.map(dto, entity);
+        return entity;
     }
-
-    // if (entity.getTipoContacto() == null) {
-    // throw new ServiceException("tipoContacto required");
-    // }
-
-    // if (entity instanceof ContactoTelefonico) {
-    // var telefono = ((ContactoTelefonico) entity).getTelefono();
-    // if (telefono == null || telefono.isBlank()) {
-    // throw new ServiceException("telefono required");
-    // }
-
-    // var tipoTelefono = ((ContactoTelefonico) entity).getTipoTelefono();
-    // if (tipoTelefono == null) {
-    // throw new ServiceException("tipoTelefono required");
-    // }
-    // } else if (entity instanceof ContactoCorreoElectronico) {
-    // var email = ((ContactoCorreoElectronico) entity).getEmail();
-    // if (email == null || email.isBlank()) {
-    // throw new ServiceException("email required");
-    // }
-
-    // if (!email.matches(EMAIL_REGEX)) {
-    // throw new ServiceException("email invalid");
-    // }
-
-    // var existing = contactoCorreoElectronicoRepository.findByEmail(email);
-    // if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-    // throw new ServiceException("email must be unique");
-    // }
-
-    // }
 
 }

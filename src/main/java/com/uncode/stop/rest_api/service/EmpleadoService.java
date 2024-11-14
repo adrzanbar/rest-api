@@ -23,13 +23,16 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
     private final PersonaService personaService;
     private final ModelMapper modelMapper;
     private final UsuarioService usuarioService;
+    private final ContactoService contactoService;
 
-    public EmpleadoService(EmpleadoRepository repository, PersonaService personaService, ModelMapper modelMapper, UsuarioService usuarioService) {
+    public EmpleadoService(EmpleadoRepository repository, PersonaService personaService, ModelMapper modelMapper,
+            UsuarioService usuarioService, ContactoService contactoService) {
         super(repository);
         this.repository = repository;
         this.personaService = personaService;
         this.modelMapper = modelMapper;
         this.usuarioService = usuarioService;
+        this.contactoService = contactoService;
     }
 
     @Override
@@ -97,10 +100,25 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
 
     public Contacto createContacto(UUID id, ContactoDTO dto) {
         var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        var contacto = modelMapper.map(dto, Contacto.class);
+        var contacto = contactoService.create(dto);
         empleado.getContactos().add(contacto);
         repository.save(empleado);
         return contacto;
+    }
+
+    public Contacto updateContacto(UUID id, UUID contactoId, ContactoDTO dto) {
+        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        var contacto = empleado.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
+                .orElseThrow(() -> new NotFoundException("Contacto not found"));
+        contactoService.update(contacto.getId(), dto);
+        return contacto;
+    }
+
+    public void deleteContacto(UUID id, UUID contactoId) {
+        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        var contacto = empleado.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
+                .orElseThrow(() -> new NotFoundException("Contacto not found"));
+        contactoService.delete(contacto.getId());
     }
 
 }

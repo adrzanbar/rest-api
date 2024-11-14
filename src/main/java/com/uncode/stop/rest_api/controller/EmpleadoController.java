@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uncode.stop.rest_api.dto.ContactoDTO;
 import com.uncode.stop.rest_api.dto.EmpleadoDTO;
 import com.uncode.stop.rest_api.dto.UsuarioDTO;
 import com.uncode.stop.rest_api.entity.Contacto;
@@ -57,18 +58,19 @@ public class EmpleadoController extends EntityController<Empleado, UUID, Emplead
         return service.getContactos(id);
     }
 
-    // @PostMapping("/{id}/contactos")
-    // public Contacto createContacto(@PathVariable UUID id, @Valid @RequestBody ContactoDTO dto) {
-    //     return service.createContacto(id, contacto);
-    // }
+    @PostMapping("/{id}/contactos")
+    public Contacto createContacto(@PathVariable UUID id, @Valid @RequestBody ContactoDTO dto) {
+        return service.createContacto(id, dto);
+    }
 
-    // @PutMapping("/{id}/contactos/{contactoId}")
-    // public Contacto updateContacto(@PathVariable UUID id, @PathVariable UUID contactoId, @Valid @RequestBody ContactoDTO dto) {
-    //     return service.updateContacto(id, contactoId, contacto);
-    // }
+    @PutMapping("/{id}/contactos/{contactoId}")
+    public Contacto updateContacto(@PathVariable UUID id, @PathVariable UUID contactoId,
+            @Valid @RequestBody ContactoDTO dto) {
+        return service.updateContacto(id, contactoId, dto);
+    }
 
-    // @DeleteMapping("/{id}/contactos/{contactoId}")
-    // public void deleteContacto(@PathVariable UUID id, @PathVariable UUID contactoId) {
-    //     service.deleteContacto(id, contactoId);
-    // }
+    @DeleteMapping("/{id}/contactos/{contactoId}")
+    public void deleteContacto(@PathVariable UUID id, @PathVariable UUID contactoId) {
+        service.deleteContacto(id, contactoId);
+    }
 }
