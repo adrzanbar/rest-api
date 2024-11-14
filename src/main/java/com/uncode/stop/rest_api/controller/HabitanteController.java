@@ -14,7 +14,7 @@ import com.uncode.stop.rest_api.service.HabitanteService;
 public class HabitanteController extends CrudController<Habitante, UUID, Habitante> {
 
     public HabitanteController(HabitanteService service, HabitanteAdapter adapter) {
-        super(service, adapter);
+        super(null, adapter);
     }
 
 }
