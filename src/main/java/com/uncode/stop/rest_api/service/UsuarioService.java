@@ -65,7 +65,9 @@ public class UsuarioService extends CRUDService2<Usuario, UUID, UsuarioDTO> {
         return entity;
     }
 
-        
+    public Usuario findByCuenta(String cuenta) {
+        return repository.findByCuenta(cuenta).orElseThrow(() -> new ServiceException("Usuario not found"));
+    }
 
 
 }
