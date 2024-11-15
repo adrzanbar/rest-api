@@ -18,15 +18,15 @@ public class Visitante implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String nombre;
 
-    @NotBlank
+    @NotBlank(message = "El apellido no puede estar vacío")
     @Column(nullable = false)
     private String apellido;
 
-    @NotBlank
+    @NotBlank(message = "El número de documento no puede estar vacío")
     @Column(nullable = false)
     private String numeroDeDocumento;
 

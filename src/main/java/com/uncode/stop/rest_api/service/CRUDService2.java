@@ -34,7 +34,7 @@ public abstract class CRUDService2<E extends Identifiable<ID>, ID, DTO> {
 
     public E read(ID id) {
         return repository.findById(id).orElseThrow(
-                () -> new NotFoundException("entity not found"));
+                () -> new NotFoundException("No se encontró el recurso"));
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public abstract class CRUDService2<E extends Identifiable<ID>, ID, DTO> {
     @Transactional
     public void delete(ID id) {
         if (!repository.existsById(id)) {
-            throw new NotFoundException("entity not found");
+            throw new NotFoundException("No se encontró el recurso");
         }
         repository.deleteById(id);
     }

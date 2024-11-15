@@ -29,24 +29,24 @@ public class Inmueble implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String numeracion;
 
-    @NotBlank
+    @NotBlank(message = "El piso no puede estar vacío")
     @Column(nullable = false)
     private String piso;
 
-    @NotBlank
+    @NotBlank(message = "El depto no puede estar vacío")
     @Column(nullable = false)
     private String depto;
 
-    @NotNull
+    @NotNull(message = "La dirección es requerida")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoInmueble estadoInmueble;
 
-    @NotNull
+    @NotNull(message = "La dirección es requerida")
     @ManyToOne(optional = false)
     private UnidadDeNegocio unidadDeNegocio;
 

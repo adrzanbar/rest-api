@@ -27,21 +27,21 @@ public class PlanillaHoraria implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "La entrada es requerida")
     @Column(nullable = false)
     private LocalDateTime entrada;
 
-    @NotNull
+    @NotNull(message = "La salida es requerida")
     @Column(nullable = false)
     private LocalDateTime salida;
 
-    @NotNull
+    @NotNull(message = "El estado de la asistencia es requerido")
     @Column(nullable = false)
     private EstadoAsistencia estadoAsistencia;
 
     private String observacionAsistencia;
 
-    @NotNull
+    @NotNull(message = "El empleado es requerido")
     @ManyToOne(optional = false)
     private Empleado empleado;
 

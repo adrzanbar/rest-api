@@ -20,7 +20,7 @@ public class Servicio implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String nombre;
 

@@ -44,7 +44,7 @@ public class HabitanteService extends CRUDService2<Habitante, UUID, HabitanteDTO
 
     @Override
     protected Habitante toEntity(UUID id, HabitanteDTO dto) {
-        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Habitante not found"));
+        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró el habitante"));
         modelMapper.map(dto, entity);
         var inmueble = dto.getInmueble();
         if (inmueble == null) {

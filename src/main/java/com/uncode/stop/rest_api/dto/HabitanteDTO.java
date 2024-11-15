@@ -7,10 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class HabitanteDTO {
+public class HabitanteDTO extends PersonaDTO {
 
-    private String nombre;
-    private String apellido;
     private IdentifierDTO<UUID> inmueble;
 
 }

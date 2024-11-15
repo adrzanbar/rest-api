@@ -20,12 +20,12 @@ public class UnidadDeNegocioService extends CrudService<UnidadDeNegocio, UUID> {
     public void validate(UnidadDeNegocio entity) {
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
+            throw new ServiceException("El nombre es requerido");
         }
         
         var direccion = entity.getDireccion();
         if (direccion == null) {
-        	throw new ServiceException("direccion required");
+        	throw new ServiceException("La direccion es requerida");
 		}
         
     }

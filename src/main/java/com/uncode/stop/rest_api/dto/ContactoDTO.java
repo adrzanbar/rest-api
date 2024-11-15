@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class ContactoDTO {
 
-    @NotNull
+    @NotNull(message = "El tipo de contacto es requerido")
     private TipoContacto tipoContacto;
     private String observacion;
 

@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.uncode.stop.rest_api.entity.Departamento;
-import com.uncode.stop.rest_api.entity.Provincia;
 import com.uncode.stop.rest_api.error.ServiceException;
 import com.uncode.stop.rest_api.repository.DepartamentoRepository;
 
@@ -24,17 +23,17 @@ public class DepartamentoService extends CrudService<Departamento, UUID>{
 	public void validate(Departamento entity) {
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre is required");
+            throw new ServiceException("El nombre es requerido");
         }
         
 		var existing = repository.findByNombre(nombre);
 		if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-			throw new ServiceException("nombre already exists");
+			throw new ServiceException("Ya existe un departamento con ese nombre");
 		}
         
         var provincia = entity.getProvincia();
         if (provincia == null) {
-        	throw new ServiceException("provincia is required");
+        	throw new ServiceException("La provincia es requerida");
 		}
 	}
 	

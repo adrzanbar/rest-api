@@ -22,13 +22,13 @@ public class ServicioService extends CrudService<Servicio, UUID> {
         var nombre = entity.getNombre();
 
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
+            throw new ServiceException("El nombre es requerido");
         }
 
         var imagen = entity.getImagen();
 
         if (imagen == null) {
-            throw new ServiceException("imagen required");
+            throw new ServiceException("La imagen es requerida");
         }
 
     }

@@ -27,11 +27,11 @@ public class Provincia implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String nombre;
 
-    @NotNull
+    @NotNull(message = "El país es requerido")
     @ManyToOne
     private Pais pais;
 

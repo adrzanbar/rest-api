@@ -27,7 +27,7 @@ public class EmpresaService extends CRUDService2<Empresa, UUID, EmpresaDTO> {
     protected void validate(Empresa entity) {
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
+            throw new ServiceException("El nombre es requerido");
         }
     }
 
@@ -38,7 +38,7 @@ public class EmpresaService extends CRUDService2<Empresa, UUID, EmpresaDTO> {
 
     @Override
     protected Empresa toEntity(UUID id, EmpresaDTO dto) {
-        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("empresa not found"));
+        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la empresa"));
         modelMapper.map(dto, entity);
         return entity;
     }

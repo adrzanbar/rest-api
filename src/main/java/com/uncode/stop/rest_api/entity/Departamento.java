@@ -27,11 +27,11 @@ public class Departamento implements Identifiable<UUID>{
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String nombre;
     
-    @NotNull
+    @NotNull(message = "La provincia es requerida")
     @ManyToOne
     private Provincia provincia;
 }

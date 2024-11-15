@@ -27,17 +27,17 @@ public class PersonaService {
     public void validate(Persona entity) {
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
+            throw new ServiceException("El nombre es requerido");
         }
 
         var apellido = entity.getApellido();
         if (apellido == null || apellido.isBlank()) {
-            throw new ServiceException("apellido required");
+            throw new ServiceException("El apellido es requerido");
         }
     }
 
     public Usuario createUsuario(UUID id, UsuarioDTO dto) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         var usuario = usuarioService.create(dto);
         persona.setUsuario(usuario);
         repository.save(persona);
@@ -45,36 +45,36 @@ public class PersonaService {
     }
 
     public Usuario getUsuario(UUID id) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         return persona.getUsuario();
     }
 
     public Usuario updateUsuario(UUID id, UsuarioDTO dto) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         var usuario = persona.getUsuario();
         usuarioService.update(usuario.getId(), dto);
         return usuario;
     }
 
     public void deleteUsuario(UUID id) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         var usuario = persona.getUsuario();
         usuarioService.delete(usuario.getId());
     }
 
     public List<Contacto> getContactos(UUID id) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         return persona.getContactos();
     }
 
     public Contacto getContacto(UUID id, UUID contactoId) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         return persona.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
                 .orElseThrow(() -> new NotFoundException("Contacto not found"));
     }
 
     public Contacto createContacto(UUID id, ContactoDTO dto) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         var contacto = contactoService.create(dto);
         persona.getContactos().add(contacto);
         repository.save(persona);
@@ -82,7 +82,7 @@ public class PersonaService {
     }
 
     public Contacto updateContacto(UUID id, UUID contactoId, ContactoDTO dto) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         var contacto = persona.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
                 .orElseThrow(() -> new NotFoundException("Contacto not found"));
         contactoService.update(contacto.getId(), dto);
@@ -90,7 +90,7 @@ public class PersonaService {
     }
 
     public void deleteContacto(UUID id, UUID contactoId) {
-        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la persona"));
         var contacto = persona.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
                 .orElseThrow(() -> new NotFoundException("Contacto not found"));
         contactoService.delete(contacto.getId());

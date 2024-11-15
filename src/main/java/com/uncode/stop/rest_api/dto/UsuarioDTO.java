@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 public class UsuarioDTO {
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String cuenta;
-    @NotBlank
+    @NotBlank(message = "La clave no puede estar vacía")
     private String clave;
     private String confirmarClave;
-    @NotNull
+    @NotNull(message = "El rol es requerido")
     private Rol rol;
 }

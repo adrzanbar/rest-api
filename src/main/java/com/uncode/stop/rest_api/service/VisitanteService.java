@@ -21,22 +21,22 @@ public class VisitanteService extends CrudService<Visitante, UUID> {
     public void validate(Visitante entity) {
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
+            throw new ServiceException("El nombre es requerido");
         }
 
         var apellido = entity.getApellido();
         if (apellido == null || apellido.isBlank()) {
-            throw new ServiceException("apellido required");
+            throw new ServiceException("El apellido es requerido");
         }
 
         var numeroDeDocumento = entity.getNumeroDeDocumento();
         if (numeroDeDocumento == null || numeroDeDocumento.isBlank()) {
-            throw new ServiceException("numero de documento required");
+            throw new ServiceException("El numero de documento es requerido");
         }
 
         var existing = repository.findByNumeroDeDocumento(numeroDeDocumento);
         if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-            throw new ServiceException("numero de documento must be unique");
+            throw new ServiceException("Ya existe un visitante con ese numero de documento");
         }
 
     }

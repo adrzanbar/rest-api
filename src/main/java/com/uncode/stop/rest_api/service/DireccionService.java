@@ -21,30 +21,29 @@ public class DireccionService extends CrudService<Direccion, UUID>{
 
 	@Override
 	public void validate(Direccion entity) {
-		// TODO Auto-generated method stub
 		var calle = entity.getCalle();
 		if (calle == null || calle.isBlank()) {
-			throw new ServiceException("calle is required");
+			throw new ServiceException("La calle es requerida");
 		}
 		
 		var numeracion = entity.getNumeracion();
 		if (numeracion == null || numeracion.isBlank()) {
-			throw new ServiceException("numeracion is required");
+			throw new ServiceException("La numeracion es requerida");
 		}
 		
 		var longitud = entity.getLongitud();
 		if (longitud == null || longitud.isBlank()) {
-			throw new ServiceException("longitud is required");
+			throw new ServiceException("La longitud es requerida");
 		}
 		
 		var latitud = entity.getLongitud();
 		if (latitud == null || latitud.isBlank()) {
-			throw new ServiceException("latitud is required");
+			throw new ServiceException("La latitud es requerida");
 		}
 		
 		var localidad = entity.getLocalidad();
 		if (localidad == null) {
-			throw new ServiceException("localidad is required");
+			throw new ServiceException("La localidad es requerida");
 		}
 	}
 }

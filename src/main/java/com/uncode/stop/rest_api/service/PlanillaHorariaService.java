@@ -19,22 +19,22 @@ public class PlanillaHorariaService extends CrudService<PlanillaHoraria, UUID> {
     public void validate(PlanillaHoraria entity) {
         var entrada = entity.getEntrada();
         if (entrada == null) {
-            throw new ServiceException("entrada required");
+            throw new ServiceException("La entrada es requerida");
         }
         var salida = entity.getSalida();
         if (salida == null) {
-            throw new ServiceException("salida required");
+            throw new ServiceException("La salida es requerida");
         }
         if (entrada.isAfter(salida)) {
-            throw new ServiceException("entrada must be before salida");
+            throw new ServiceException("La hora de entrada no puede ser posterior a la hora de salida");
         }
         var estadoAsistencia = entity.getEstadoAsistencia();
         if (estadoAsistencia == null) {
-            throw new ServiceException("estadoAsistencia required");
+            throw new ServiceException("El estado de asistencia es requerido");
         }
         var empleado = entity.getEmpleado();
         if (empleado == null || empleado.getId() == null) {
-            throw new ServiceException("empleado required");
+            throw new ServiceException("El empleado es requerido");
         }
     }
 

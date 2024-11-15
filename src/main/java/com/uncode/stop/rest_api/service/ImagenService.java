@@ -25,19 +25,19 @@ public class ImagenService extends CrudService<Imagen, UUID> {
         var nombre = entity.getNombre();
 
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre required");
+            throw new ServiceException("El nombre es requerido");
         }
 
         var mime = entity.getMime();
 
         if (mime == null || mime.isBlank()) {
-            throw new ServiceException("mime required");
+            throw new ServiceException("El mime es requerido");
         }
 
         var contenido = entity.getContenido();
 
         if (contenido == null) {
-            throw new ServiceException("contenido required");
+            throw new ServiceException("El contenido es requerido");
         }
     }
 

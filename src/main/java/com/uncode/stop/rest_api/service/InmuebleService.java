@@ -24,27 +24,27 @@ public class InmuebleService extends CrudService<Inmueble, UUID> {
     public void validate(Inmueble entity) {
         var numeracion = entity.getNumeracion();
         if (numeracion == null || numeracion.isBlank()) {
-            throw new ServiceException("numeracion required");
+            throw new ServiceException("La numeracion es requerida");
         }
 
         var piso = entity.getPiso();
         if (piso == null || piso.isBlank()) {
-            throw new ServiceException("piso required");
+            throw new ServiceException("El piso es requerido");
         }
 
         var depto = entity.getDepto();
         if (depto == null || depto.isBlank()) {
-            throw new ServiceException("depto required");
+            throw new ServiceException("El depto es requerido");
         }
 
         var estadoInmueble = entity.getEstadoInmueble();
         if (estadoInmueble == null) {
-            throw new ServiceException("estadoInmueble required");
+            throw new ServiceException("El estado del inmueble es requerido");
         }
 
         var unidadDeNegocio = entity.getUnidadDeNegocio();
         if (unidadDeNegocio == null || unidadDeNegocio.getId() == null) {
-            throw new ServiceException("unidadDeNegocio required");
+            throw new ServiceException("La unidad de negocio es requerida");
         }
 
     }
@@ -55,7 +55,7 @@ public class InmuebleService extends CrudService<Inmueble, UUID> {
                 .findByUnidadDeNegocioIdAndNumeracionAndPisoAndDepto(unidadDeNegocioId, numeracion, piso, depto)
                 .orElseThrow(
                         () -> new ServiceException(
-                                "inmueble not found"));
+                                "No se encontró el inmueble"));
     }
     
     public List<Inmueble> listarInmueblesPorBarrio(UUID id){

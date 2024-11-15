@@ -34,32 +34,32 @@ public class ContactoService extends CRUDService2<Contacto, UUID, ContactoDTO> {
     @Override
     protected void validate(Contacto entity) {
         if (entity.getTipoContacto() == null) {
-            throw new ServiceException("tipoContacto required");
+            throw new ServiceException("El tipo de contacto es requerido");
         }
 
         if (entity instanceof ContactoTelefonico) {
             var telefono = ((ContactoTelefonico) entity).getTelefono();
             if (telefono == null || telefono.isBlank()) {
-                throw new ServiceException("telefono required");
+                throw new ServiceException("El telefono es requerido");
             }
 
             var tipoTelefono = ((ContactoTelefonico) entity).getTipoTelefono();
             if (tipoTelefono == null) {
-                throw new ServiceException("tipoTelefono required");
+                throw new ServiceException("El tipo de telefono es requerido");
             }
         } else if (entity instanceof ContactoCorreoElectronico) {
             var email = ((ContactoCorreoElectronico) entity).getEmail();
             if (email == null || email.isBlank()) {
-                throw new ServiceException("email required");
+                throw new ServiceException("El email es requerido");
             }
 
             if (!email.matches(EMAIL_REGEX)) {
-                throw new ServiceException("email invalid");
+                throw new ServiceException("El email no es válido");
             }
 
             var existing = contactoCorreoElectronicoRepository.findByEmail(email);
             if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-                throw new ServiceException("email must be unique");
+                throw new ServiceException("El email ya está en uso");
             }
 
         }
@@ -72,13 +72,13 @@ public class ContactoService extends CRUDService2<Contacto, UUID, ContactoDTO> {
         } else if (dto.getTelefono() != null) {
             return modelMapper.map(dto, ContactoTelefonico.class);
         } else {
-            throw new ServiceException("email or telefono required");
+            throw new ServiceException("El contacto debe tener un email o un telefono");
         }
     }
 
     @Override
     protected Contacto toEntity(UUID id, ContactoDTO dto) {
-        var entity = repository.findById(id).orElseThrow(() -> new ServiceException("Contacto not found"));
+        var entity = repository.findById(id).orElseThrow(() -> new ServiceException("No se encontró el contacto"));
         modelMapper.map(dto, entity);
         return entity;
     }

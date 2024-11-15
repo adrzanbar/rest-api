@@ -3,7 +3,6 @@ package com.uncode.stop.rest_api.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.uncode.stop.rest_api.entity.Localidad;
@@ -26,22 +25,22 @@ public class LocalidadService extends CrudService<Localidad, UUID>{
 		
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre is required");
+            throw new ServiceException("El nombre es requerido");
         }
         
         var codigoPostal = entity.getCodigoPostal();
         if (codigoPostal == null || codigoPostal.isBlank()) {
-        	throw new ServiceException("codigo postal is required");
+        	throw new ServiceException("El codigo postal es requerido");
 		}
         
 		var existing = repository.findByNombre(nombre);
 		if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-			throw new ServiceException("nombre already exists");
+			throw new ServiceException("Ya existe una localidad con ese nombre");
 		}
         
         var departamento = entity.getDepartamento();
         if (departamento == null) {
-        	throw new ServiceException("departamento is required");
+        	throw new ServiceException("El departamento es requerido");
 		}
 	}
 	

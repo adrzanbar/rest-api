@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uncode.stop.rest_api.adapter.DepartamentoAdapter;
 import com.uncode.stop.rest_api.entity.Departamento;
-import com.uncode.stop.rest_api.entity.Provincia;
 import com.uncode.stop.rest_api.service.DepartamentoService;
 
 @RestController

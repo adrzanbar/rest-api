@@ -24,17 +24,17 @@ public class ProvinciaService extends CrudService<Provincia, UUID> {
     public void validate(Provincia entity) {
         var nombre = entity.getNombre();
         if (nombre == null || nombre.isBlank()) {
-            throw new ServiceException("nombre is required");
+            throw new ServiceException("El nombre es requerido");
         }
         
 		var existing = repository.findByNombre(nombre);
 		if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-			throw new ServiceException("nombre already exists");
+			throw new ServiceException("El nombre ya existe");
 		}
 		
 		var pais = entity.getPais();
 		if (pais == null) {
-			throw new ServiceException("pais is required");
+			throw new ServiceException("El pais es requerido");
 		}
     }
     

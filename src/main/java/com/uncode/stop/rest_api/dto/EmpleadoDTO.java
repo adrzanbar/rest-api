@@ -12,15 +12,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmpleadoDTO implements Serializable {
+public class EmpleadoDTO extends PersonaDTO implements Serializable  {
 
-    @NotBlank
-    private String nombre;
-    @NotBlank
-    private String apellido;
-    @NotBlank
+    
+    @NotBlank(message = "El legajo no puede estar vacío")
     private String legajo;
-    @NotNull
+    @NotNull(message = "El tipo de empleado es requerido")
     private TipoEmpleado tipoEmpleado;
     private IdentifierDTO<UUID> unidadDeNegocio = new IdentifierDTO<>();
 

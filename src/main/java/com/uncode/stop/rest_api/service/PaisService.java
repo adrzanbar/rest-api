@@ -23,12 +23,12 @@ public class PaisService extends CrudService<Pais, UUID> {
 
 		var nombre = entity.getNombre();
 		if (nombre == null || nombre.isBlank()) {
-			throw new ServiceException("nombre required");
+			throw new ServiceException("El nombre es requerido");
 		}
 
 		var existing = repository.findByNombre(nombre);
 		if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-			throw new ServiceException("nombre already exists");
+			throw new ServiceException("Ya existe un pais con ese nombre");
 		}
 
 	}

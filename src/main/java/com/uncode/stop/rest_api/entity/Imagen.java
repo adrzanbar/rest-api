@@ -3,7 +3,6 @@ package com.uncode.stop.rest_api.entity;
 import com.uncode.stop.rest_api.service.Identifiable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SoftDelete;
@@ -20,11 +19,11 @@ public class Imagen implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String nombre;
 
-    @NotBlank
+    @NotBlank(message = "El mime no puede estar vacío")
     @Column(nullable = false)
     private String mime;
 

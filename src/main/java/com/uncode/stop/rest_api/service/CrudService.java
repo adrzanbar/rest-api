@@ -23,7 +23,7 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> implements Val
 
     public E readOne(ID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Entity not found"));
+                .orElseThrow(() -> new NotFoundException("No se encontró el recurso"));
     }
 
     public Page<E> readAll(Pageable pageable) {
@@ -37,7 +37,7 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> implements Val
         if (repository.existsById(entity.getId())) {
             return repository.save(entity);
         } else {
-            throw new NotFoundException("Entity not found");
+            throw new NotFoundException("No se encontró el recurso");
         }
     }
 
@@ -46,7 +46,7 @@ public abstract class CrudService<E extends Identifiable<ID>, ID> implements Val
         if (repository.existsById(id)) {
             repository.deleteById(id);
         } else {
-            throw new NotFoundException("Entity not found");
+            throw new NotFoundException("No se encontró el recurso");
         }
     }
 

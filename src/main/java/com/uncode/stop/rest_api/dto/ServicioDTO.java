@@ -11,9 +11,9 @@ import java.util.UUID;
 public class ServicioDTO {
 
     private UUID id;
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
-    @NotBlank
+    @NotBlank(message = "La descripción no puede estar vacía")
     private UUID imagenId;
 
 }

@@ -20,35 +20,35 @@ public class MovimientoVisita implements Identifiable<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "El tipo de movimiento es requerido")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoMovimiento tipoMovimiento;
 
-    @NotNull
+    @NotNull(message = "La fecha de movimiento es requerida")
     @Column(nullable = false)
     private LocalDateTime fechaMovimiento;
 
     private String observacion;
 
-    @NotNull
+    @NotNull(message = "El estado de movimiento es requerido")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoMovimiento estadoMovimiento;
 
-    @NotNull
+    @NotNull(message = "El tipo de movilidad es requerido")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoMovilidad tipoMovilidad;
 
     private String descripcionMovilidad;
 
-    @NotNull
+    @NotNull(message = "El tipo de visita es requerido")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoVisita tipoVisita;
 
-    @NotNull
+    @NotNull(message = "El visitante es requerido")
     @ManyToOne(optional = false)
     private Visitante visitante;
 

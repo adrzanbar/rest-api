@@ -32,17 +32,17 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
 
         var legajo = entity.getLegajo();
         if (legajo == null || legajo.isBlank()) {
-            throw new ServiceException("legajo required");
+            throw new ServiceException("El legajo es requerido");
         }
 
         var existing = repository.findByLegajo(legajo);
         if (existing.isPresent() && !existing.get().getId().equals(entity.getId())) {
-            throw new ServiceException("legajo must be unique");
+            throw new ServiceException("El legajo ya está en uso");
         }
 
         var tipoEmpleado = entity.getTipoEmpleado();
         if (tipoEmpleado == null) {
-            throw new ServiceException("tipoEmpleado required");
+            throw new ServiceException("El tipo de empleado es requerido");
         }
     }
 
@@ -59,7 +59,7 @@ public class EmpleadoService extends CRUDService2<Empleado, UUID, EmpleadoDTO> {
 
     @Override
     protected Empleado toEntity(UUID id, EmpleadoDTO dto) {
-        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        var entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Mo se encontró el empleado"));
         modelMapper.map(dto, entity);
         var unidadDeNegocio = dto.getUnidadDeNegocio();
         if (unidadDeNegocio == null) {
