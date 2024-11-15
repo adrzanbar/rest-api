@@ -37,55 +37,55 @@ public class PersonaService {
     }
 
     public Usuario createUsuario(UUID id, UsuarioDTO dto) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
         var usuario = usuarioService.create(dto);
-        empleado.setUsuario(usuario);
-        repository.save(empleado);
+        persona.setUsuario(usuario);
+        repository.save(persona);
         return usuario;
     }
 
     public Usuario getUsuario(UUID id) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        return empleado.getUsuario();
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        return persona.getUsuario();
     }
 
     public Usuario updateUsuario(UUID id, UsuarioDTO dto) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        var usuario = empleado.getUsuario();
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var usuario = persona.getUsuario();
         usuarioService.update(usuario.getId(), dto);
         return usuario;
     }
 
     public void deleteUsuario(UUID id) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        var usuario = empleado.getUsuario();
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var usuario = persona.getUsuario();
         usuarioService.delete(usuario.getId());
     }
 
     public List<Contacto> getContactos(UUID id) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        return empleado.getContactos();
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        return persona.getContactos();
     }
 
     public Contacto createContacto(UUID id, ContactoDTO dto) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
         var contacto = contactoService.create(dto);
-        empleado.getContactos().add(contacto);
-        repository.save(empleado);
+        persona.getContactos().add(contacto);
+        repository.save(persona);
         return contacto;
     }
 
     public Contacto updateContacto(UUID id, UUID contactoId, ContactoDTO dto) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        var contacto = empleado.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var contacto = persona.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
                 .orElseThrow(() -> new NotFoundException("Contacto not found"));
         contactoService.update(contacto.getId(), dto);
         return contacto;
     }
 
     public void deleteContacto(UUID id, UUID contactoId) {
-        var empleado = repository.findById(id).orElseThrow(() -> new NotFoundException("Empleado not found"));
-        var contacto = empleado.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        var contacto = persona.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
                 .orElseThrow(() -> new NotFoundException("Contacto not found"));
         contactoService.delete(contacto.getId());
     }
