@@ -67,6 +67,12 @@ public class PersonaService {
         return persona.getContactos();
     }
 
+    public Contacto getContacto(UUID id, UUID contactoId) {
+        var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
+        return persona.getContactos().stream().filter(c -> c.getId().equals(contactoId)).findFirst()
+                .orElseThrow(() -> new NotFoundException("Contacto not found"));
+    }
+
     public Contacto createContacto(UUID id, ContactoDTO dto) {
         var persona = repository.findById(id).orElseThrow(() -> new NotFoundException("persona not found"));
         var contacto = contactoService.create(dto);

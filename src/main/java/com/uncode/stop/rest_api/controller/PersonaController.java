@@ -56,6 +56,11 @@ public abstract class PersonaController<E extends Persona, DTO> extends EntityCo
         return personaService.getContactos(id);
     }
 
+    @GetMapping("/{id}/contactos/{contactoId}")
+    public Contacto getContactos(@PathVariable UUID id, @PathVariable UUID contactoId) {
+        return personaService.getContacto(id, contactoId);
+    }
+
     @PostMapping("/{id}/contactos")
     public Contacto createContacto(@PathVariable UUID id, @Valid @RequestBody ContactoDTO dto) {
         return personaService.createContacto(id, dto);
