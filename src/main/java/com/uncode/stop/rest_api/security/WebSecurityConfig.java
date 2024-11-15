@@ -34,7 +34,6 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/paises/**").authenticated()
                         .anyRequest().permitAll()
                 );
 
